@@ -1,6 +1,6 @@
 <?php
 
-namespace Tribe\Extensions\__TRIBE_NAMESPACE__;
+namespace Tribe\Extensions\Compact_View;
 
 use Tribe__Settings_Manager;
 

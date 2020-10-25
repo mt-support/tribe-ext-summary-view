@@ -2,21 +2,21 @@
 /**
  * Handles the Extension plugin dependency manifest registration.
  *
- * @since __TRIBE_VERSION__
+ * @since 1.0.0
  *
- * @package Tribe\Extensions\__TRIBE_NAMESPACE__
+ * @package Tribe\Extensions\Compact_View
  */
 
-namespace Tribe\Extensions\__TRIBE_NAMESPACE__;
+namespace Tribe\Extensions\Compact_View;
 
 use Tribe__Abstract_Plugin_Register as Abstract_Plugin_Register;
 
 /**
  * Class Plugin_Register.
  *
- * @since   __TRIBE_VERSION__
+ * @since   1.0.0
  *
- * @package Tribe\Extensions\__TRIBE_NAMESPACE__
+ * @package Tribe\Extensions\Compact_View
  *
  * @see Tribe__Abstract_Plugin_Register For the plugin dependency manifest registration.
  */

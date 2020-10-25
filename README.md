@@ -34,16 +34,16 @@ If you have modifications you would like to suggest to our base template, here i
 
 By default, all of these variables will be replaced by the create method from the slack bot, but if you are creating your extension manually you will need to replace all the below. 
 
-* `__TRIBE_BASE__` - "The Events Calendar" or "Event Tickets"
-* `__TRIBE_NAME__` - Plugin Human-readable name
-* `__TRIBE_NAMESPACE__` - Which namespace we will use for the plugin
-* `__TRIBE_SLUG__` - Uses using dashes normally
+* `The Events Calendar` - "The Events Calendar" or "Event Tickets"
+* `Compact View` - Plugin Human-readable name
+* `Compact_View` - Which namespace we will use for the plugin
+* `compact-view` - Uses using dashes normally
 * `__TRIBE_DOMAIN__` - Translation domain normally with "tribe-" prefix
-* `__TRIBE_SLUG_CLEAN__` - Uses underscores, so it's safe for variables
-* `__TRIBE_SLUG_CLEAN_UPPERCASE__` - Uppercase of clean slug
-* `__TRIBE_URL__` - By default empty
-* `__TRIBE_VERSION__` - By default empty
-* `__TRIBE_DESCRIPTION__` - By default empty
+* `compact_view` - Uses underscores, so it's safe for variables
+* `COMPACT_VIEW` - Uppercase of clean slug
+* `` - By default empty
+* `1.0.0` - By default empty
+* `` - By default empty
 
 #### Slack Bot commands related to Extensions
 
