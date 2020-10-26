@@ -28,6 +28,15 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	const SLUG = 'compact-view';
 
 	/**
+	 * Stores the view slug for the plugin.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	const VIEW_SLUG = 'compact';
+
+	/**
 	 * Stores the base slug for the extension.
 	 *
 	 * @since 1.0.0
@@ -56,6 +65,15 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 * @var string Plugin URL.
 	 */
 	public $plugin_url;
+
+	/**
+	 * Where in the themes we will look for templates
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	public $template_namespace = 'events';
 
 	/**
 	 * Setup the Extension's properties.
@@ -87,8 +105,18 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// End binds.
 
-		$this->container->register( Hooks::class );
-		$this->container->register( Assets::class );
+		include_once $this->plugin_path . 'src/functions/general.php';
+
+		tribe_register_provider( '\Tribe\Extensions\Compact_View\Rewrite\Provider' );
+
+		$hooks = new Hooks( $this->container );
+		$hooks->register();
+
+		$this->container->singleton( Hooks::class, $hooks );
+
+		$assets = new Assets( $this->container );
+		$assets->register();
+		$this->container->singleton( Assets::class, $assets );
 	}
 
 	/**

@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:       The Events Calendar Extension: Compact View
- * Plugin URI:        
+ * Plugin URI:
  * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-compact-view
- * Description:       
+ * Description:
  * Version:           1.0.0
  * Author:            Modern Tribe, Inc.
  * Author URI:        http://m.tri.be/1971
@@ -56,7 +56,7 @@ function tribe_extension_compact_view() {
 			'<p>' . esc_html__( 'Couldn\'t properly load "The Events Calendar Extension: Compact View" the extension was deactivated.', '__TRIBE_DOMAIN__' ) . '</p>',
 			[],
 			// 1 second after that make sure the transiet is removed.
-			1 
+			1
 		);
 
 		if ( ! function_exists( 'deactivate_plugins' ) ) {
