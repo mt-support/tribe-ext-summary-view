@@ -17,8 +17,8 @@
  */
 
 
-$event_classes = tribe_get_post_class( [ 'tribe-events-calendar-list__event', 'tribe-common-g-row', 'tribe-common-g-row--gutters' ], $event->ID );
-$event_classes['tribe-events-calendar-list__event-row--featured'] = $event->featured;
+$event_classes = tribe_get_post_class( [ 'tribe-events-calendar-compact__event', 'tribe-common-g-row', 'tribe-common-g-row--gutters' ], $event->ID );
+$event_classes['tribe-events-calendar-compact__event-row--featured'] = $event->featured;
 ?>
 <article <?php tribe_classes( $event_classes ) ?>>
 

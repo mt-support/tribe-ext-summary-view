@@ -51,19 +51,28 @@ add_filter( 'tribe_format_second_date_in_range', static function() {
 		margin-top: 16px;
 	}
 
+	.tribe-common .tribe-events-calendar-compact__event {
+		margin-bottom: 16px;
+	}
+
+	.tribe-common .tribe-events-calendar-compact__event:last-child,
+	.tribe-common--breakpoint-medium .tribe-events-calendar-compact__event {
+		margin-bottom: 0;
+	}
+
 	.tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-list__event-row {
 		margin-bottom: 8px;
 		margin-top: 8px;
 	}
 
-	.tribe-common article .tribe-events-calendar-compact__event-header {
+	.tribe-common--breakpoint-medium article .tribe-events-calendar-compact__event-header {
 		display: flex;
 		flex-basis: auto;
 		flex-direction: row;
 		flex-wrap: nowrap;
 	}
 
-	.tribe-common .tribe-events-calendar-compact__event-datetime-wrapper {
+	.tribe-common--breakpoint-medium .tribe-events-calendar-compact__event-datetime-wrapper {
 		display: block;
 		flex-grow: 0;
 		flex-shrink: 0;
@@ -71,12 +80,17 @@ add_filter( 'tribe_format_second_date_in_range', static function() {
 		width: 230px;
 	}
 
-	.tribe-common .tribe-events-calendar-compact__event-title {
+	.tribe-common--breakpoint-medium .tribe-events-calendar-compact__event-title {
 		display: block;
 		flex-grow: 0;
 	}
 
-	.tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-list__event-cost {
+	.tribe-common.tribe-events .tribe-events-calendar-compact__event-cost {
+		margin-top: 0;
+		line-height: 1.62;
+	}
+
+	.tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-compact__event-cost {
 		flex-grow: 0;
 		margin-left: 16px;
 		margin-top: 0;
@@ -127,7 +141,7 @@ add_filter( 'tribe_format_second_date_in_range', static function() {
 
 		<?php $this->template( 'components/filter-bar' ); ?>
 
-		<div class="tribe-events-calendar-list">
+		<div class="tribe-events-calendar-compact">
 
 			<?php foreach ( $events_by_date as $date_for_group => $events_data ) : ?>
 				<?php $event = $events_data[0]; ?>
