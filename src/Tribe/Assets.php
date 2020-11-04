@@ -14,6 +14,9 @@
  */
 namespace Tribe\Extensions\Compact_View;
 
+use Tribe\Events\Views\V2\Assets as Event_Assets;
+use Tribe__Events__Templates;
+
 /**
  * Register Assets.
  *
@@ -22,6 +25,15 @@ namespace Tribe\Extensions\Compact_View;
  * @package Tribe\Extensions\Compact_View
  */
 class Assets extends \tad_DI52_ServiceProvider {
+	/**
+	 * Key for this group of assets.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	public static $group_key = 'compact-view';
+
 	/**
 	 * Binds and sets up implementations.
 	 *
@@ -33,5 +45,36 @@ class Assets extends \tad_DI52_ServiceProvider {
 
 		$plugin = tribe( Plugin::class );
 
+		tribe_asset(
+			$plugin,
+			'tribe-ext-compact-view',
+			'style.css',
+			[
+				'tribe-common-full-style',
+				'tribe-events-views-v2-skeleton',
+			],
+			'wp_enqueue_scripts',
+			[
+				'groups' => [ static::$group_key, Event_Assets::$group_key ],
+			]
+		);
+
+		$overrides_stylesheet = Tribe__Events__Templates::locate_stylesheet( 'tribe-events/tribe-ext-compact-view.css' );
+
+		if ( ! empty( $overrides_stylesheet ) ) {
+			tribe_asset(
+				$plugin,
+				'tribe-ext-compact-view-override',
+				$overrides_stylesheet,
+				[
+					'tribe-common-full-style',
+					'tribe-events-views-v2-skeleton',
+				],
+				'wp_enqueue_scripts',
+				[
+					'groups' => [ static::$group_key, Event_Assets::$group_key ],
+				]
+			);
+		}
 	}
 }
