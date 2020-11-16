@@ -50,16 +50,12 @@ class Provider extends \tad_DI52_ServiceProvider {
 	 */
 	public function filter_add_routes( $rewrite ) {
 		$rewrite
-			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG ] )
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '{{ page }}', '(\d+)' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'paged' => '%1' ] )
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '{{ featured }}', '{{ page }}', '(\d+)' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'featured' => true, 'paged' => '%1' ] )
+			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG ] )
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '{{ featured }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'featured' => true ] )
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '(\d{4}-\d{2}-\d{2})' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'eventDate' => '%1' ] )
-			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '(\d{4}-\d{2}-\d{2})', '{{ featured }}' ], [
-				'eventDisplay' => Plugin::VIEW_SLUG,
-				'eventDate'    => '%1',
-				'featured'     => true
-			] )
+			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '(\d{4}-\d{2}-\d{2})', '{{ featured }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'eventDate' => '%1', 'featured' => true ] )
 			->tax( [ '{{ ' . Plugin::VIEW_SLUG . ' }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG ] )
 			->tax( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '{{ featured }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'featured' => true ] )
 			->tag( [ '{{ ' . Plugin::VIEW_SLUG . ' }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG ] )
