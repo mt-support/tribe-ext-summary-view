@@ -23,8 +23,7 @@ class Provider extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 1.0.0
 	 */
-	public function register()
-	{
+	public function register() {
 		$this->container->singleton( Rewrite::class, Rewrite::class );
 		$this->add_filters();
 	}
@@ -32,7 +31,7 @@ class Provider extends \tad_DI52_ServiceProvider {
 	/**
 	 * Adds the filter required to provide the rewrite support.
 	 *
-	 * @since 4.7.5
+	 * @since 1.0.0
 	 */
 	protected function add_filters() {
 		add_action( 'tribe_events_pre_rewrite', [ $this, 'filter_add_routes' ], 5 );
@@ -43,7 +42,7 @@ class Provider extends \tad_DI52_ServiceProvider {
 	/**
 	 * Add rewrite routes for custom PRO stuff and views.
 	 *
-	 * @since 4.7.5 Moved here from Main file.
+	 * @since 1.0.0
 	 *
 	 * @param \Tribe__Events__Rewrite $rewrite The Tribe__Events__Rewrite object
 	 *
@@ -52,6 +51,8 @@ class Provider extends \tad_DI52_ServiceProvider {
 	public function filter_add_routes( $rewrite ) {
 		$rewrite
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG ] )
+			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '{{ page }}', '(\d+)' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'paged' => '%1' ] )
+			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '{{ featured }}', '{{ page }}', '(\d+)' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'featured' => true, 'paged' => '%1' ] )
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '{{ featured }}' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'featured' => true ] )
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '(\d{4}-\d{2}-\d{2})' ], [ 'eventDisplay' => Plugin::VIEW_SLUG, 'eventDate' => '%1' ] )
 			->archive( [ '{{ ' . Plugin::VIEW_SLUG . ' }}', '(\d{4}-\d{2}-\d{2})', '{{ featured }}' ], [
@@ -68,7 +69,7 @@ class Provider extends \tad_DI52_ServiceProvider {
 	/**
 	 * Add the required bases for the Pro Views
 	 *
-	 * @since 4.7.5 Moved here from Main file.
+	 * @since 1.0.0
 	 *
 	 * @param array $bases Bases that are already set
 	 *

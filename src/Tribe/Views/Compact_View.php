@@ -25,7 +25,7 @@ class Compact_View extends List_View {
 	/**
 	 * Overrides the base View method to fix the order of the events in the `past` display mode.
 	 *
-	 * @since 4.9.11
+	 * @since 1.0.0
 	 *
 	 * @return array The List View template vars, modified if required.
 	 */
