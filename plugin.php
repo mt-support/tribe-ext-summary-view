@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       The Events Calendar Extension: Compact View
+ * Plugin Name:       The Events Calendar Extension: Summary View
  * Plugin URI:
- * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-compact-view
+ * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-summary-view
  * Description:
  * Version:           1.0.0
  * Author:            Modern Tribe, Inc.
@@ -36,7 +36,7 @@ define( 'TRIBE_EXTENSION_COMPACT_VIEW_FILE', __FILE__ );
  *
  * @since 1.0.0
  */
-function tribe_extension_compact_view() {
+function tribe_extension_summary_view() {
 	// When we dont have autoloader from common we bail.
 	if  ( ! class_exists( 'Tribe__Autoloader' ) ) {
 		return;
@@ -44,16 +44,16 @@ function tribe_extension_compact_view() {
 
 	// Register the namespace so we can the plugin on the service provider registration.
 	Tribe__Autoloader::instance()->register_prefix(
-		'\\Tribe\\Extensions\\Compact_View\\',
+		'\\Tribe\\Extensions\\Summary_View\\',
 		__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Tribe',
-		'compact-view'
+		'summary-view'
 	);
 
 	// Deactivates the plugin in case of the main class didn't autoload.
-	if ( ! class_exists( '\Tribe\Extensions\Compact_View\Plugin' ) ) {
+	if ( ! class_exists( '\Tribe\Extensions\Summary_View\Plugin' ) ) {
 		tribe_transient_notice(
-			'compact-view',
-			'<p>' . esc_html__( 'Couldn\'t properly load "The Events Calendar Extension: Compact View" the extension was deactivated.', '__TRIBE_DOMAIN__' ) . '</p>',
+			'summary-view',
+			'<p>' . esc_html__( 'Couldn\'t properly load "The Events Calendar Extension: Summary View" the extension was deactivated.', '__TRIBE_DOMAIN__' ) . '</p>',
 			[],
 			// 1 second after that make sure the transiet is removed.
 			1
@@ -67,8 +67,8 @@ function tribe_extension_compact_view() {
 		return;
 	}
 
-	tribe_register_provider( '\Tribe\Extensions\Compact_View\Plugin' );
+	tribe_register_provider( '\Tribe\Extensions\Summary_View\Plugin' );
 }
 
 // Loads after common is already properly loaded.
-add_action( 'tribe_common_loaded', 'tribe_extension_compact_view' );
+add_action( 'tribe_common_loaded', 'tribe_extension_summary_view' );

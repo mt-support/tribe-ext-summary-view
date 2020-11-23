@@ -10,9 +10,9 @@
  *
  * @since 1.0.0
  *
- * @package Tribe\Extensions\Compact_View
+ * @package Tribe\Extensions\Summary_View
  */
-namespace Tribe\Extensions\Compact_View;
+namespace Tribe\Extensions\Summary_View;
 
 use Tribe\Events\Views\V2\Assets as Event_Assets;
 use Tribe__Events__Templates;
@@ -22,7 +22,7 @@ use Tribe__Events__Templates;
  *
  * @since 1.0.0
  *
- * @package Tribe\Extensions\Compact_View
+ * @package Tribe\Extensions\Summary_View
  */
 class Assets extends \tad_DI52_ServiceProvider {
 	/**
@@ -32,7 +32,7 @@ class Assets extends \tad_DI52_ServiceProvider {
 	 *
 	 * @var string
 	 */
-	public static $group_key = 'compact-view';
+	public static $group_key = 'summary-view';
 
 	/**
 	 * Binds and sets up implementations.
@@ -41,13 +41,13 @@ class Assets extends \tad_DI52_ServiceProvider {
 	 */
 	public function register() {
 		$this->container->singleton( static::class, $this );
-		$this->container->singleton( 'extension.compact_view.assets', $this );
+		$this->container->singleton( 'extension.summary_view.assets', $this );
 
 		$plugin = tribe( Plugin::class );
 
 		tribe_asset(
 			$plugin,
-			'tribe-ext-compact-view',
+			'tribe-ext-summary-view',
 			'style.css',
 			[
 				'tribe-common-full-style',
@@ -59,12 +59,12 @@ class Assets extends \tad_DI52_ServiceProvider {
 			]
 		);
 
-		$overrides_stylesheet = Tribe__Events__Templates::locate_stylesheet( 'tribe-events/tribe-ext-compact-view.css' );
+		$overrides_stylesheet = Tribe__Events__Templates::locate_stylesheet( 'tribe-events/tribe-ext-summary-view.css' );
 
 		if ( ! empty( $overrides_stylesheet ) ) {
 			tribe_asset(
 				$plugin,
-				'tribe-ext-compact-view-override',
+				'tribe-ext-summary-view-override',
 				$overrides_stylesheet,
 				[
 					'tribe-common-full-style',

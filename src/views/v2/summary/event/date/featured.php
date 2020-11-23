@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Compact View - Single Event Featured Icon
+ * View: Summary View - Single Event Featured Icon
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact/event/date/featured.php
+ * [your-theme]/tribe/events/v2/summary/event/date/featured.php
  *
  * See more documentation about our views templating system.
  *

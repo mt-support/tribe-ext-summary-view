@@ -4,10 +4,10 @@
  *
  * @since 1.0.0
  *
- * @package Tribe\Extensions\Compact_View;
+ * @package Tribe\Extensions\Summary_View;
  */
 
-namespace Tribe\Extensions\Compact_View;
+namespace Tribe\Extensions\Summary_View;
 
 use Tribe__PUE__Checker;
 
@@ -16,7 +16,7 @@ use Tribe__PUE__Checker;
  *
  * @since 1.0.0
  *
- * @package Tribe\Extensions\Compact_View;
+ * @package Tribe\Extensions\Summary_View;
  */
 class PUE extends \tad_DI52_ServiceProvider {
 
@@ -27,7 +27,7 @@ class PUE extends \tad_DI52_ServiceProvider {
 	 *
 	 * @var string
 	 */
-	private static $pue_slug = 'extension-compact-view';
+	private static $pue_slug = 'extension-summary-view';
 
 	/**
 	 * Plugin update URL.
@@ -54,7 +54,7 @@ class PUE extends \tad_DI52_ServiceProvider {
 	 */
 	public function register() {
 		$this->container->singleton( static::class, $this );
-		$this->container->singleton( 'extension.compact_view.pue', $this );
+		$this->container->singleton( 'extension.summary_view.pue', $this );
 
 		add_action( 'tribe_helper_activation_complete', [ $this, 'load_plugin_update_engine' ] );
 

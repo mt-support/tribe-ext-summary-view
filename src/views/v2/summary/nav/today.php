@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Compact View Nav Today Button
+ * View: Summary View Nav Today Button
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact/nav/today.php
+ * [your-theme]/tribe/events/v2/summary/nav/today.php
  *
  * See more documentation about our views templating system.
  *

@@ -35,11 +35,11 @@ If you have modifications you would like to suggest to our base template, here i
 By default, all of these variables will be replaced by the create method from the slack bot, but if you are creating your extension manually you will need to replace all the below. 
 
 * `The Events Calendar` - "The Events Calendar" or "Event Tickets"
-* `Compact View` - Plugin Human-readable name
-* `Compact_View` - Which namespace we will use for the plugin
-* `compact-view` - Uses using dashes normally
+* `Summary View` - Plugin Human-readable name
+* `Summary_View` - Which namespace we will use for the plugin
+* `summary-view` - Uses using dashes normally
 * `__TRIBE_DOMAIN__` - Translation domain normally with "tribe-" prefix
-* `compact_view` - Uses underscores, so it's safe for variables
+* `summary_view` - Uses underscores, so it's safe for variables
 * `COMPACT_VIEW` - Uppercase of clean slug
 * `` - By default empty
 * `1.0.0` - By default empty

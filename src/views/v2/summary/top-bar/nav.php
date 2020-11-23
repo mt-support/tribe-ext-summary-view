@@ -3,7 +3,7 @@
  * View: Top Bar - Navigation
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact/top-bar/nav.php
+ * [your-theme]/tribe/events/v2/summary/top-bar/nav.php
  *
  * See more documentation about our views templating system.
  *
@@ -19,17 +19,17 @@
 	<ul class="tribe-events-c-top-bar__nav-list">
 		<?php
 		if ( ! empty( $prev_url ) ) {
-			$this->template( 'compact/top-bar/nav/prev' );
+			$this->template( 'summary/top-bar/nav/prev' );
 		} else {
-			$this->template( 'compact/top-bar/nav/prev-disabled' );
+			$this->template( 'summary/top-bar/nav/prev-disabled' );
 		}
 		?>
 
 		<?php
 		if ( ! empty( $next_url ) ) {
-			$this->template( 'compact/top-bar/nav/next' );
+			$this->template( 'summary/top-bar/nav/next' );
 		} else {
-			$this->template( 'compact/top-bar/nav/next-disabled' );
+			$this->template( 'summary/top-bar/nav/next-disabled' );
 		}
 		?>
 	</ul>

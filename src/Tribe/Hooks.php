@@ -4,24 +4,24 @@
  *
  * To remove a filter:
  * ```php
- *  remove_filter( 'some_filter', [ tribe( Tribe\Extensions\Compact_View\Hooks::class ), 'some_filtering_method' ] );
- *  remove_filter( 'some_filter', [ tribe( 'extension.compact_view.hooks' ), 'some_filtering_method' ] );
+ *  remove_filter( 'some_filter', [ tribe( Tribe\Extensions\Summary_View\Hooks::class ), 'some_filtering_method' ] );
+ *  remove_filter( 'some_filter', [ tribe( 'extension.summary_view.hooks' ), 'some_filtering_method' ] );
  * ```
  *
  * To remove an action:
  * ```php
- *  remove_action( 'some_action', [ tribe( Tribe\Extensions\Compact_View\Hooks::class ), 'some_method' ] );
- *  remove_action( 'some_action', [ tribe( 'extension.compact_view.hooks' ), 'some_method' ] );
+ *  remove_action( 'some_action', [ tribe( Tribe\Extensions\Summary_View\Hooks::class ), 'some_method' ] );
+ *  remove_action( 'some_action', [ tribe( 'extension.summary_view.hooks' ), 'some_method' ] );
  * ```
  *
  * @since   1.0.0
  *
- * @package Tribe\Extensions\Compact_View;
+ * @package Tribe\Extensions\Summary_View;
  */
 
-namespace Tribe\Extensions\Compact_View;
+namespace Tribe\Extensions\Summary_View;
 
-use Tribe\Extensions\Compact_View\Views\Compact_View as View;
+use Tribe\Extensions\Summary_View\Views\Summary_View as View;
 use Tribe__Main as Common;
 use Tribe__Template;
 
@@ -30,7 +30,7 @@ use Tribe__Template;
  *
  * @since   1.0.0
  *
- * @package Tribe\Extensions\Compact_View;
+ * @package Tribe\Extensions\Summary_View;
  */
 class Hooks extends \tad_DI52_ServiceProvider {
 
@@ -41,7 +41,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 */
 	public function register() {
 		$this->container->singleton( static::class, $this );
-		$this->container->singleton( 'extension.compact_view.hooks', $this );
+		$this->container->singleton( 'extension.summary_view.hooks', $this );
 
 		$this->add_actions();
 		$this->add_filters();
@@ -64,7 +64,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 */
 	protected function add_filters() {
 		add_filter( 'tribe_events_views', [ $this, 'filter_events_views' ] );
-		add_filter( 'tribe-events-bar-views', [ $this, 'setup_compactview_in_bar' ], 30, 1 );
+		add_filter( 'tribe-events-bar-views', [ $this, 'setup_summary_view_in_bar' ], 30, 1 );
 		add_filter( 'tribe_template_path_list', [ $this, 'filter_template_path_list' ], 15, 2 );
 	}
 
@@ -91,7 +91,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return array The array of available views, including the PRO ones.
 	 */
 	public function filter_events_views( array $views = [] ) {
-		$views['compact'] = View::class;
+		$views['summary'] = View::class;
 
 		return $views;
 	}
@@ -105,19 +105,19 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @return array The views registered with photo view added.
 	 */
-	public function setup_compactview_in_bar( $views ) {
+	public function setup_summary_view_in_bar( $views ) {
 		$views[] = array(
-			'displaying'     => 'compact',
-			'anchor'         => __( 'Compact', 'tribe-events-calendar-pro' ),
+			'displaying'     => 'summary',
+			'anchor'         => __( 'Summary', 'tribe-events-calendar-pro' ),
 			'event_bar_hook' => 'tribe_events_before_template',
-			'url'            => \tribe_get_compact_permalink(),
+			'url'            => \tribe_get_summary_permalink(),
 		);
 
 		return $views;
 	}
 
 	/**
-	 * Filters the list of folders TEC will look up to find templates to add the ones defined by tribe-ext-compact-view.
+	 * Filters the list of folders TEC will look up to find templates to add the ones defined by tribe-ext-summary-view.
 	 *
 	 * @since 1.0.0
 	 *

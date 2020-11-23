@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Compact View
+ * View: Summary View
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact.php
+ * [your-theme]/tribe/events/v2/summary.php
  *
  * See more documentation about our views templating system.
  *
@@ -22,6 +22,8 @@
  * @var array    $container_data       An additional set of container `data` attributes.
  * @var string   $breakpoint_pointer   String we use as pointer to the current view we are setting up with breakpoints.
  */
+
+use Tribe__Date_Utils as Dates;
 
 $header_classes = [ 'tribe-events-header' ];
 if ( empty( $disable_event_search ) ) {
@@ -62,24 +64,24 @@ add_filter( 'tribe_format_second_date_in_range', static function() {
 
 			<?php $this->template( 'components/events-bar' ); ?>
 
-			<?php $this->template( 'compact/top-bar' ); ?>
+			<?php $this->template( 'summary/top-bar' ); ?>
 		</header>
 
 		<?php $this->template( 'components/filter-bar' ); ?>
 
-		<div class="tribe-events-calendar-compact">
+		<div class="tribe-events-calendar-summary">
 
 			<?php foreach ( $events_by_date as $date_for_group => $events_data ) : ?>
 				<?php $event = $events_data[0]; ?>
 				<?php $this->setup_postdata( $event ); ?>
-				<?php $this->template( 'compact/month-separator', [ 'events' => $events, 'event' => $event ] ); ?>
-				<?php $this->template( 'compact/date-separator', [ 'events' => $events, 'event' => $event ] ); ?>
-				<?php $this->template( 'compact/date-group', [ 'events_for_date' => $events_data, 'date' => $date_for_group ] ); ?>
+				<?php $this->template( 'summary/month-separator', [ 'events' => $events, 'event' => $event, 'date' => $date_for_group ] ); ?>
+				<?php $this->template( 'summary/date-separator', [ 'events' => $events, 'event' => $event, 'date' => $date_for_group ] ); ?>
+				<?php $this->template( 'summary/date-group', [ 'events_for_date' => $events_data, 'date' => Dates::build_date_object( $date_for_group ) ] ); ?>
 			<?php endforeach; ?>
 
 		</div>
 
-		<?php $this->template( 'compact/nav' ); ?>
+		<?php $this->template( 'summary/nav' ); ?>
 
 		<?php $this->template( 'components/ical-link' ); ?>
 

@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Compact View Month separator
+ * View: Summary View Date separator
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact/month-separator.php
+ * [your-theme]/tribe/events/v2/summary/date-separator.php
  *
  * See more documentation about our views templating system.
  *
@@ -20,15 +20,21 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-use Tribe\Events\Views\V2\Utils;
+use Tribe\Extensions\Summary_View\Utils;
+use Tribe__Date_Utils as Dates;
 
-if ( empty( $is_past ) && ! empty ( $request_date ) ) {
-	$should_have_month_separator = Utils\Separators::should_have_month( $events, $event, $request_date );
+if ( $date !== $event->dates->start_display->format( Dates::DBDATEFORMAT ) ) {
+	$should_have_date_separator = true;
+	$sep_date = Dates::build_date_object( $date );
+} elseif ( empty( $is_past ) && ! empty ( $request_date ) ) {
+	$should_have_date_separator = Utils\Separators::should_have_date( $events, $event, $request_date );
+	$sep_date = $event->dates->start_display;
 } else {
-	$should_have_month_separator = Utils\Separators::should_have_month( $events, $event );
+	$should_have_date_separator = Utils\Separators::should_have_date( $events, $event );
+	$sep_date = $event->dates->start_display;
 }
 
-if ( ! $should_have_month_separator ) {
+if ( ! $should_have_date_separator ) {
 	return;
 }
 
@@ -38,15 +44,13 @@ if ( ! $should_have_month_separator ) {
  * This does not apply to past events.
  */
 $sep_date = empty( $is_past ) && ! empty( $request_date )
-	? max( $event->dates->start_display, $request_date )
-	: $event->dates->start_display;
+	? max( $sep_date, $request_date )
+	: $sep_date;
 ?>
-<div class="tribe-events-calendar-list__month-separator">
+<div class="tribe-events-calendar-list__date-separator">
 	<time
-		class="tribe-events-calendar-list__month-separator-text tribe-common-h7 tribe-common-h6--min-medium tribe-common-h--alt"
-		datetime="<?php
-		echo esc_attr( $sep_date->format( 'Y-m' ) ); ?>"
+		class="tribe-events-calendar-list__date-separator-text tribe-common-h7 tribe-common-h6--min-medium tribe-common-h--alt"
+		datetime="<?php echo esc_attr( $sep_date->format( 'Y-m-d' ) ); ?>"
 	>
-		<?php echo esc_html( $sep_date->format_i18n( 'F Y' ) ); ?>
 	</time>
 </div>

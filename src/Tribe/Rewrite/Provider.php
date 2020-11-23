@@ -1,20 +1,20 @@
 <?php
 /**
- * Provides the rewrite rules suppor for the Compact View.
+ * Provides the rewrite rules suppor for the Summary View.
  *
  * @since   1.0.0
  * @package Tribe\Events\Pro\Rewrite
  */
 
-namespace Tribe\Extensions\Compact_View\Rewrite;
+namespace Tribe\Extensions\Summary_View\Rewrite;
 
-use Tribe\Extensions\Compact_View\Plugin;
+use Tribe\Extensions\Summary_View\Plugin;
 
 /**
  * Class Provider
  *
  * @since   1.0.0
- * @package Tribe\Extensions\Compact_View\Rewrite
+ * @package Tribe\Extensions\Summary_View\Rewrite
  */
 class Provider extends \tad_DI52_ServiceProvider {
 
@@ -79,7 +79,7 @@ class Provider extends \tad_DI52_ServiceProvider {
 	}
 
 	/**
-	 * Add the required bases for the Compact View.
+	 * Add the required bases for the Summary View.
 	 *
 	 * @since 1.0.0
 	 *

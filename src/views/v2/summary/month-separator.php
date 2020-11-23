@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Compact View Date separator
+ * View: Summary View Month separator
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact/date-separator.php
+ * [your-theme]/tribe/events/v2/summary/month-separator.php
  *
  * See more documentation about our views templating system.
  *
@@ -20,15 +20,15 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-use Tribe\Extensions\Compact_View\Utils;
+use Tribe\Events\Views\V2\Utils;
 
 if ( empty( $is_past ) && ! empty ( $request_date ) ) {
-	$should_have_date_separator = Utils\Separators::should_have_date( $events, $event, $request_date );
+	$should_have_month_separator = Utils\Separators::should_have_month( $events, $event, $request_date );
 } else {
-	$should_have_date_separator = Utils\Separators::should_have_date( $events, $event );
+	$should_have_month_separator = Utils\Separators::should_have_month( $events, $event );
 }
 
-if ( ! $should_have_date_separator ) {
+if ( ! $should_have_month_separator ) {
 	return;
 }
 
@@ -41,11 +41,12 @@ $sep_date = empty( $is_past ) && ! empty( $request_date )
 	? max( $event->dates->start_display, $request_date )
 	: $event->dates->start_display;
 ?>
-<div class="tribe-events-calendar-list__date-separator">
+<div class="tribe-events-calendar-list__month-separator">
 	<time
-		class="tribe-events-calendar-list__date-separator-text tribe-common-h7 tribe-common-h6--min-medium tribe-common-h--alt"
+		class="tribe-events-calendar-list__month-separator-text tribe-common-h7 tribe-common-h6--min-medium tribe-common-h--alt"
 		datetime="<?php
-		echo esc_attr( $sep_date->format( 'Y-m-d' ) ); ?>"
+		echo esc_attr( $sep_date->format( 'Y-m' ) ); ?>"
 	>
+		<?php echo esc_html( $sep_date->format_i18n( 'F Y' ) ); ?>
 	</time>
 </div>

@@ -6,20 +6,20 @@
  * @package Tribe\Events\Views\V2\Utils
  */
 
-namespace Tribe\Extensions\Compact_View\Utils;
+namespace Tribe\Extensions\Summary_View\Utils;
 
 use Tribe__Date_Utils as Dates;
 
 /**
  * Class Utils Separators
  * @since   1.0.0
- * @package Tribe\Extensions\Compact_View\Utils
+ * @package Tribe\Extensions\Summary_View\Utils
  */
 class Separators {
 
 	/**
 	 * Determines if a given event from a list of events should have a date separator
-	 * for the Compact view template structure.
+	 * for the Summary view template structure.
 	 *
 	 * Note that events will NOT be sorted by date for this check: this is by design. There are other criteria by which
 	 * events might be sorted this method should not interfere with.

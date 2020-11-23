@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Compact View Nav Template
+ * View: Summary View Nav Template
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact/nav.php
+ * [your-theme]/tribe/events/v2/summary/nav.php
  *
  * See more documentation about our views templating system.
  *
@@ -21,19 +21,19 @@
 	<ul class="tribe-events-c-nav__list">
 		<?php
 		if ( ! empty( $prev_url ) ) {
-			$this->template( 'compact/nav/prev', [ 'link' => $prev_url ] );
+			$this->template( 'summary/nav/prev', [ 'link' => $prev_url ] );
 		} else {
-			$this->template( 'compact/nav/prev-disabled' );
+			$this->template( 'summary/nav/prev-disabled' );
 		}
 		?>
 
-		<?php $this->template( 'compact/nav/today' ); ?>
+		<?php $this->template( 'summary/nav/today' ); ?>
 
 		<?php
 		if ( ! empty( $next_url ) ) {
-			$this->template( 'compact/nav/next', [ 'link' => $next_url ] );
+			$this->template( 'summary/nav/next', [ 'link' => $next_url ] );
 		} else {
-			$this->template( 'compact/nav/next-disabled' );
+			$this->template( 'summary/nav/next-disabled' );
 		}
 		?>
 	</ul>

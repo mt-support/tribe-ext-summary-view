@@ -1,4 +1,4 @@
-=== The Events Calendar Extension: Compact View ===
+=== The Events Calendar Extension: Summary View ===
 Contributors: ModernTribe
 Donate link: http://m.tri.be/29
 Tags: events, calendar

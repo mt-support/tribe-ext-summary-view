@@ -1,12 +1,12 @@
 <?php
-namespace Tribe\Extensions\Compact_View;
+namespace Tribe\Extensions\Summary_View;
 
 /**
  * Class Plugin
  *
  * @since   1.0.0
  *
- * @package Tribe\Extensions\Compact_View
+ * @package Tribe\Extensions\Summary_View
  */
 class Plugin extends \tad_DI52_ServiceProvider {
 	/**
@@ -25,7 +25,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 *
 	 * @var string
 	 */
-	const SLUG = 'compact-view';
+	const SLUG = 'summary-view';
 
 	/**
 	 * Stores the view slug for the plugin.
@@ -34,7 +34,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 *
 	 * @var string
 	 */
-	const VIEW_SLUG = 'compact';
+	const VIEW_SLUG = 'summary';
 
 	/**
 	 * Stores the base slug for the extension.
@@ -90,8 +90,8 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// Register this provider as the main one and use a bunch of aliases.
 		$this->container->singleton( static::class, $this );
-		$this->container->singleton( 'extension.compact_view', $this );
-		$this->container->singleton( 'extension.compact_view.plugin', $this );
+		$this->container->singleton( 'extension.summary_view', $this );
+		$this->container->singleton( 'extension.summary_view.plugin', $this );
 		$this->container->register( PUE::class );
 
 		if ( ! $this->check_plugin_dependencies() ) {
@@ -107,7 +107,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		include_once $this->plugin_path . 'src/functions/general.php';
 
-		tribe_register_provider( '\Tribe\Extensions\Compact_View\Rewrite\Provider' );
+		tribe_register_provider( '\Tribe\Extensions\Summary_View\Rewrite\Provider' );
 
 		$hooks = new Hooks( $this->container );
 		$hooks->register();
@@ -142,6 +142,6 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		$plugin_register->register_plugin();
 
 		$this->container->singleton( Plugin_Register::class, $plugin_register );
-		$this->container->singleton( 'extension.compact_view', $plugin_register );
+		$this->container->singleton( 'extension.summary_view', $plugin_register );
 	}
 }

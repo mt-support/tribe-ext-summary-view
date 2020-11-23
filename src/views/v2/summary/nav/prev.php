@@ -1,15 +1,18 @@
 <?php
 /**
- * View: Compact View Nav Disabled Previous Button
+ * View: Summary View Nav Previous Button
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/compact/nav/prev-disabled.php
+ * [your-theme]/tribe/events/v2/summary/nav/prev.php
  *
  * See more documentation about our views templating system.
  *
  * @link http://m.tri.be/1aiy
  *
+ * @var string $link The URL to the previous page.
+ *
  * @version 1.0.0
+ *
  */
 
 /* translators: %s: Event (plural or singular). */
@@ -19,14 +22,16 @@ $label = sprintf( __( 'Previous %1$s', 'the-events-calendar' ), tribe_get_event_
 $events_mobile_friendly_label = sprintf( __( 'Previous %1$s', 'the-events-calendar' ), '<span class="tribe-events-c-nav__prev-label-plural tribe-common-a11y-visual-hide">' . tribe_get_event_label_plural() . '</span>' );
 ?>
 <li class="tribe-events-c-nav__list-item tribe-events-c-nav__list-item--prev">
-	<button
+	<a
+		href="<?php echo esc_url( $link ); ?>"
+		rel="prev"
 		class="tribe-events-c-nav__prev tribe-common-b2 tribe-common-b1--min-medium"
+		data-js="tribe-events-view-link"
 		aria-label="<?php echo esc_attr( $label ); ?>"
 		title="<?php echo esc_attr( $label ); ?>"
-		disabled
 	>
 		<span class="tribe-events-c-nav__prev-label">
 			<?php echo wp_kses( $events_mobile_friendly_label, [ 'span' => [ 'class' => [] ] ] ); ?>
 		</span>
-	</button>
+	</a>
 </li>
