@@ -20,17 +20,20 @@
  */
 use Tribe__Date_Utils as Dates;
 
-$event_date_attr     = $event->dates->start->format( Dates::DBDATEFORMAT );
-$suppress_start_date = $group_date->format( Dates::DBDATEFORMAT ) === $event_date_attr;
+$formatted_start_date = $event->dates->start->format( Dates::DBDATEFORMAT );
+$formatted_end_date   = $event->dates->end->format( Dates::DBDATEFORMAT );
+$formatted_group_date = $group_date->format( Dates::DBDATEFORMAT );
+$suppress_start_date  = $formatted_group_date === $formatted_start_date;
+$is_psuedo_all_day    = $formatted_group_date !== $formatted_start_date && $formatted_group_date !== $formatted_end_date;
 
 ?>
 <div class="tribe-events-calendar-summary__event-datetime-wrapper tribe-common-b2">
 	<?php $this->template( 'summary/event/date/featured' ); ?>
-	<time class="tribe-events-calendar-summary__event-datetime" datetime="<?php echo esc_attr( $event_date_attr ); ?>">
+	<time class="tribe-events-calendar-summary__event-datetime" datetime="<?php echo esc_attr( $formatted_start_date ); ?>">
 		<?php
 		$schedule = $event->schedule_details->value();
 
-		if ( false === strpos( $schedule, '@' ) ) {
+		if ( false === strpos( $schedule, '@' ) || $is_psuedo_all_day ) {
 			$schedule = 'All day';
 		} elseif ( $suppress_start_date ) {
 			$schedule = preg_replace( '/^[^@]+@\s/', '', $schedule );

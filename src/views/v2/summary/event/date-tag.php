@@ -11,7 +11,7 @@
  *
  * @version 1.0.0
  *
- * @var \Tribe\Utils\Date_I18n_Immutable $date         The date for the date group.
+ * @var \Tribe\Utils\Date_I18n_Immutable $group_date   The date for the date group.
  * @var WP_Post                          $event        The event post object with properties added by the `tribe_get_event` function.
  * @var \DateTimeInterface               $request_date The request date object. This will be "today" if the user did not input any
  *                                                     date, or the user input date.
@@ -27,8 +27,8 @@ use Tribe__Date_Utils as Dates;
  * past" in relation to the date they requested (or today's date).
  */
 $display_date = empty( $is_past ) && ! empty( $request_date )
-	? max( $date, $request_date )
-	: $date;
+	? max( $group_date, $request_date )
+	: $group_date;
 
 $event_week_day  = $display_date->format_i18n( 'D' );
 $event_day_num   = $display_date->format_i18n( 'j' );
