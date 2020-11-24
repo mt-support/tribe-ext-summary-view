@@ -33,6 +33,8 @@ class Summary_View extends List_View {
 	 */
 	protected $events_per_page = 25;
 
+	protected $date_group_order_tracking = [];
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -84,26 +86,28 @@ class Summary_View extends List_View {
 
 			$end_date = $event->dates->end_display;
 
-			$formatted_start_date = $start_date->format( Dates::DBDATEFORMAT );
-			$formatted_month      = substr( $formatted_start_date, 0, 7 );
+			$group_date      = tribe_beginning_of_day( $start_date->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
+			$formatted_month = substr( $group_date, 0, 7 );
+
+			$event = $this->add_view_specific_properties_to_event( $event, $group_date );
 
 			// When we transition to a new month, store the date of transition.
 			if ( empty( $current_month ) || $formatted_month !== $current_month ) {
-				$current_month                             = $formatted_month;
-				$month_transition[ $formatted_start_date ] = $formatted_start_date;
+				$current_month                   = $formatted_month;
+				$month_transition[ $group_date ] = $group_date;
 			}
 
-			if ( ! isset( $events_by_date[ $formatted_start_date ] ) ) {
-				$events_by_date[ $formatted_start_date ] = [];
+			if ( ! isset( $events_by_date[ $group_date ] ) ) {
+				$events_by_date[ $group_date ] = [];
 			}
 
-			$events_by_date[ $formatted_start_date ][ $event->dates->start->format( Dates::DBDATETIMEFORMAT ) . ' - ' . $event->ID ] = $event;
+			$events_by_date[ $group_date ][ $event->dates->start->format( Dates::DBDATETIMEFORMAT ) . ' - ' . $event->ID ] = $event;
 
 			$injectable_events = $this->maybe_extend_event_to_other_dates( $event, $start_date, $end_date, $injectable_events );
 		}
 
 		if ( ! empty( $previous_event ) ) {
-			$injectable_events = $this->maybe_include_overlapping_events( $events_by_date, current( $previous_event ), $injectable_events );
+			$injectable_events = $this->maybe_include_overlapping_events( $events_by_date, $previous_event, $injectable_events );
 		}
 
 		$events_by_date = $this->inject_events_into_result_dates( $injectable_events, $events_by_date );
@@ -115,6 +119,25 @@ class Summary_View extends List_View {
 		$template_vars['month_transition'] = $month_transition;
 
 		return $template_vars;
+	}
+
+	protected function add_view_specific_properties_to_event( $event ) {
+		$start_date = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
+		$end_date   = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
+
+		$formatted_start_date_beginning = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), tribe_get_option( 'dateWithoutYearFormat' ) );
+		$formatted_end_date_ending      = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), tribe_get_option( 'dateWithoutYearFormat' ) );
+
+		$event->summary_view = (object) [
+			'start_time'           => $event->dates->start->format( 'g:i a'),
+			'end_time'             => $event->dates->end->format( 'g:i a'),
+			'start_date'           => $start_date,
+			'end_date'             => $end_date,
+			'formatted_start_date' => $formatted_start_date_beginning,
+			'formatted_end_date'   => $formatted_end_date_ending,
+		];
+
+		return $event;
 	}
 
 	/**
@@ -176,7 +199,7 @@ class Summary_View extends List_View {
 			->per_page( 1 )
 			->page( 1 )
 			->order( 'DESC' )
-			->all();
+			->first();
 	}
 
 	/**
@@ -201,13 +224,19 @@ class Summary_View extends List_View {
 		$diff = $start_date_beginning->diff( $end_date_beginning )->format( '%a' );
 
 		for ( $i = 1; $i <= $diff; $i++ ) {
-			$date = $start_date->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT );
+			$date = tribe_beginning_of_day( $start_date->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 
 			if ( empty( $dates[ $date ] ) ) {
 				$dates[ $date ] = [];
 			}
 
-			$dates[ $date ][ $event->dates->start->format( Dates::DBDATETIMEFORMAT ) . ' - ' . $event->ID ] = $event;
+			if ( ! isset( $this->date_group_order_tracking[ $date ] ) ) {
+				$this->date_group_order_tracking[ $date ] = 1;
+			} else {
+				$this->date_group_order_tracking[ $date ]++;
+			}
+
+			$dates[ $date ][ $event->dates->start->format( Dates::DBDATEFORMAT ) . ' 00:00:00 - ' . $this->date_group_order_tracking[ $date ] ] = $event;
 		}
 
 		return $dates;
@@ -253,8 +282,8 @@ class Summary_View extends List_View {
 		list( $first_date, $last_date ) = $this->get_first_and_last_dates_in_the_result_set( $events_by_date );
 
 		$previous_event_date                  = $previous_event->dates->start;
-		$first_date_beginning_of_day          = tribe_beginning_of_day( $first_date->format( Dates::DBDATEFORMAT ) );
-		$previous_event_date_beginning_of_day = tribe_beginning_of_day( $previous_event_date->format( Dates::DBDATEFORMAT ) );
+		$first_date_beginning_of_day          = tribe_beginning_of_day( $first_date->format( Dates::DBDATEFORMAT ), 'Y-m-d' );
+		$previous_event_date_beginning_of_day = tribe_beginning_of_day( $previous_event_date->format( Dates::DBDATEFORMAT ), 'Y-m-d' );
 
 		$overlapping_events = [];
 
@@ -267,7 +296,7 @@ class Summary_View extends List_View {
 		foreach ( $overlapping_events as $event ) {
 			$start_date           = $event->dates->start_display;
 			$end_date             = $event->dates->end_display;
-			$formatted_start_date = $start_date->format( Dates::DBDATEFORMAT );
+			$formatted_start_date = tribe_beginning_of_day( $start_date->format( Dates::DBDATEFORMAT ), 'Y-m-d' );
 
 			if ( ! isset( $injectable_events[ $formatted_start_date ] ) ) {
 				$injectable_events[ $formatted_start_date ] = [];

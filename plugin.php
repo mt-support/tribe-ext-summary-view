@@ -9,7 +9,7 @@
  * Author URI:        http://m.tri.be/1971
  * License:           GPL version 3 or any later version
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain:       __TRIBE_DOMAIN__
+ * Text Domain:       tribe-ext-summary-view
  *
  *     This plugin is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ function tribe_extension_summary_view() {
 	if ( ! class_exists( '\Tribe\Extensions\Summary_View\Plugin' ) ) {
 		tribe_transient_notice(
 			'summary-view',
-			'<p>' . esc_html__( 'Couldn\'t properly load "The Events Calendar Extension: Summary View" the extension was deactivated.', '__TRIBE_DOMAIN__' ) . '</p>',
+			'<p>' . esc_html__( 'Couldn\'t properly load "The Events Calendar Extension: Summary View" the extension was deactivated.', 'tribe-ext-summary-view' ) . '</p>',
 			[],
 			// 1 second after that make sure the transiet is removed.
 			1

@@ -20,27 +20,24 @@
  */
 use Tribe__Date_Utils as Dates;
 
+$event->schedule_details;
 $formatted_start_date = $event->dates->start->format( Dates::DBDATEFORMAT );
-$formatted_end_date   = $event->dates->end->format( Dates::DBDATEFORMAT );
 $formatted_group_date = $group_date->format( Dates::DBDATEFORMAT );
-$suppress_start_date  = $formatted_group_date === $formatted_start_date;
-$is_psuedo_all_day    = $formatted_group_date !== $formatted_start_date && $formatted_group_date !== $formatted_end_date;
 
 ?>
 <div class="tribe-events-calendar-summary__event-datetime-wrapper tribe-common-b2">
 	<?php $this->template( 'summary/event/date/featured' ); ?>
-	<time class="tribe-events-calendar-summary__event-datetime" datetime="<?php echo esc_attr( $formatted_start_date ); ?>">
-		<?php
-		$schedule = $event->schedule_details->value();
-
-		if ( false === strpos( $schedule, '@' ) || $is_psuedo_all_day ) {
-			$schedule = 'All day';
-		} elseif ( $suppress_start_date ) {
-			$schedule = preg_replace( '/^[^@]+@\s/', '', $schedule );
-		}
-
-		echo $schedule;
-		?>
+	<time class="tribe-events-calendar-summary__event-datetime" datetime="<?php echo esc_attr( $formatted_start_date ); ?>" title="<?php echo $event->start_date . ' :: ' . $event->end_date; ?>">
+		<?php if ( ! $event->multiday ) : ?>
+			<span class="tribe-event-date-start"><?php echo esc_html( $event->summary_view->start_time ); ?></span> -
+			<span class="tribe-event-date-end"><?php echo esc_html( $event->summary_view->end_time ); ?></span>
+		<?php elseif ( $event->summary_view->start_date === $formatted_group_date ) : ?>
+			<span class="tribe-event-date-start"><?php echo esc_html( $event->summary_view->start_time ); ?></span>
+		<?php elseif ( $event->summary_view->end_date === $formatted_group_date ) : ?>
+			<?php echo _x( 'to', '"to" as in "from DATE to DATE"', 'tribe-ext-summary-view' ); ?> <span class="tribe-event-date-end"><?php echo esc_html( $event->summary_view->end_time ); ?></span>
+		<?php else : ?>
+			<span class="tribe-event-date-start"><?php echo esc_html( __( 'All day', 'tribe-ext-summary-view' ) ); ?></span>
+		<?php endif; ?>
 	</time>
 	<?php $this->template( 'summary/event/date/meta', [ 'event' => $event ] ); ?>
 </div>
