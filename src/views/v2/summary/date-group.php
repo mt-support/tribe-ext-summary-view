@@ -11,7 +11,7 @@
  *
  * @version 1.0.0
  *
- * @var \Tribe\Utils\Date_I18n_Immutable $date            The date for the date group.
+ * @var \Tribe\Utils\Date_I18n_Immutable $group_date      The date for the date group.
  * @var array                            $events_for_date The array of events for the date group.
  *                                                        date, or the user input date.
  *
@@ -24,12 +24,12 @@ $container_classes = [ 'tribe-common-g-row', 'tribe-events-calendar-list__event-
 
 	<?php $event = current( $events_for_date ); ?>
 	<?php $this->setup_postdata( $event ); ?>
-	<?php $this->template( 'summary/event/date-tag', [ 'event' => $event, 'date' => $date ] ); ?>
+	<?php $this->template( 'summary/event/date-tag', [ 'event' => $event, 'group_date' => $group_date ] ); ?>
 
 	<div class="tribe-events-calendar-summary__event-wrapper tribe-common-g-col">
 		<?php foreach ( $events_for_date as $event ) : ?>
 			<?php $this->setup_postdata( $event ); ?>
-			<?php $this->template( 'summary/event', [ 'event' => $event ] ); ?>
+			<?php $this->template( 'summary/event', [ 'event' => $event, 'group_date' => $group_date ] ); ?>
 		<?php endforeach; ?>
 	</div>
 

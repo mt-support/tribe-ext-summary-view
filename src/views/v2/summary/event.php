@@ -11,7 +11,8 @@
  *
  * @version 1.0.0
  *
- * @var WP_Post $event The event post object with properties added by the `tribe_get_event` function.
+ * @var WP_Post                          $event      The event post object with properties added by the `tribe_get_event` function.
+ * @var \Tribe\Utils\Date_I18n_Immutable $group_date The date for the date group.
  *
  * @see tribe_get_event() For the format of the event object.
  */
@@ -25,7 +26,7 @@ $event_classes['tribe-events-calendar-summary__event-row--featured'] = $event->f
 	<div class="tribe-events-calendar-summary__event-details tribe-common-g-col">
 
 		<header class="tribe-events-calendar-summary__event-header">
-			<?php $this->template( 'summary/event/date', [ 'event' => $event ] ); ?>
+			<?php $this->template( 'summary/event/date', [ 'event' => $event, 'group_date' => $group_date ] ); ?>
 			<?php $this->template( 'summary/event/title', [ 'event' => $event ] ); ?>
 			<?php $this->template( 'summary/event/cost', [ 'event' => $event ] ); ?>
 		</header>

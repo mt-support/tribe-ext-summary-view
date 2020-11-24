@@ -72,15 +72,15 @@ add_filter( 'tribe_format_second_date_in_range', static function() {
 
 		<div class="tribe-events-calendar-summary">
 
-			<?php foreach ( $events_by_date as $date_for_group => $events_data ) : ?>
+			<?php foreach ( $events_by_date as $group_date => $events_data ) : ?>
 				<?php
 					$event = current( $events_data );
 					$this->setup_postdata( $event );
-					$date_for_group = Dates::build_date_object( $date_for_group );
+					$group_date = Dates::build_date_object( $group_date );
 				?>
-				<?php $this->template( 'summary/month-separator', [ 'events' => $events, 'event' => $event, 'date' => $date_for_group, 'month_transition' => $month_transition ] ); ?>
-				<?php $this->template( 'summary/date-separator', [ 'events' => $events, 'event' => $event, 'date' => $date_for_group ] ); ?>
-				<?php $this->template( 'summary/date-group', [ 'events_for_date' => $events_data, 'date' => $date_for_group ] ); ?>
+				<?php $this->template( 'summary/month-separator', [ 'events' => $events, 'event' => $event, 'group_date' => $group_date, 'month_transition' => $month_transition ] ); ?>
+				<?php $this->template( 'summary/date-separator', [ 'events' => $events, 'event' => $event, 'group_date' => $group_date ] ); ?>
+				<?php $this->template( 'summary/date-group', [ 'events_for_date' => $events_data, 'group_date' => $group_date ] ); ?>
 			<?php endforeach; ?>
 
 		</div>
