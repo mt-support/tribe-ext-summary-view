@@ -13,10 +13,11 @@
  *
  * @var array    $events               The array containing the events.
  * @var array    $events_by_date       An array containing the events indexed by date.
+ * @var array    $month_transition     And array of dates that should trigger a month separator
  * @var string   $rest_url             The REST URL.
  * @var string   $rest_method          The HTTP method, either `POST` or `GET`, the View will use to make requests.
  * @var string   $rest_nonce           The REST nonce.
- * @var int      $should_manage_url    int containing if it should manage the URL.
+ * @var int      $should_manage_url    Int containing if it should manage the URL.
  * @var bool     $disable_event_search Boolean on whether to disable the event search.
  * @var string[] $container_classes    Classes used for the container of the view.
  * @var array    $container_data       An additional set of container `data` attributes.
@@ -72,11 +73,14 @@ add_filter( 'tribe_format_second_date_in_range', static function() {
 		<div class="tribe-events-calendar-summary">
 
 			<?php foreach ( $events_by_date as $date_for_group => $events_data ) : ?>
-				<?php $event = $events_data[0]; ?>
-				<?php $this->setup_postdata( $event ); ?>
-				<?php $this->template( 'summary/month-separator', [ 'events' => $events, 'event' => $event, 'date' => $date_for_group ] ); ?>
+				<?php
+					$event = current( $events_data );
+					$this->setup_postdata( $event );
+					$date_for_group = Dates::build_date_object( $date_for_group );
+				?>
+				<?php $this->template( 'summary/month-separator', [ 'events' => $events, 'event' => $event, 'date' => $date_for_group, 'month_transition' => $month_transition ] ); ?>
 				<?php $this->template( 'summary/date-separator', [ 'events' => $events, 'event' => $event, 'date' => $date_for_group ] ); ?>
-				<?php $this->template( 'summary/date-group', [ 'events_for_date' => $events_data, 'date' => Dates::build_date_object( $date_for_group ) ] ); ?>
+				<?php $this->template( 'summary/date-group', [ 'events_for_date' => $events_data, 'date' => $date_for_group ] ); ?>
 			<?php endforeach; ?>
 
 		</div>
