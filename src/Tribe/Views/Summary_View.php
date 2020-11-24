@@ -11,6 +11,7 @@ namespace Tribe\Extensions\Summary_View\Views;
 use Tribe__Context as Context;
 use Tribe__Date_Utils as Dates;
 use Tribe\Events\Views\V2\Views\List_View;
+use Tribe\Utils\Date_I18n;
 use Tribe\Utils\Date_I18n_Immutable;
 
 class Summary_View extends List_View {
@@ -145,12 +146,12 @@ class Summary_View extends List_View {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Date_I18n_Immutable $first_date First date in the result set.
-	 * @param Date_I18n_Immutable $last_date Last date in the result set.
+	 * @param Date_I18n|Date_I18n_Immutable $first_date First date in the result set.
+	 * @param Date_I18n|Date_I18n_Immutable $last_date Last date in the result set.
 	 *
 	 * @return array
 	 */
-	protected function get_events_that_start_before_and_end_between( Date_I18n_Immutable $first_date, Date_I18n_Immutable $last_date ) {
+	protected function get_events_that_start_before_and_end_between( $first_date, $last_date ) {
 		$first_date_beginning_of_day = tribe_beginning_of_day( $first_date->format( Dates::DBDATEFORMAT ) );
 		$last_date_end_of_day        = tribe_end_of_day( $last_date->format( Dates::DBDATEFORMAT ) );
 
@@ -166,12 +167,12 @@ class Summary_View extends List_View {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Date_I18n_Immutable $first_date First date in the result set.
-	 * @param Date_I18n_Immutable $last_date Last date in the result set.
+	 * @param Date_I18n|Date_I18n_Immutable $first_date First date in the result set.
+	 * @param Date_I18n|Date_I18n_Immutable $last_date Last date in the result set.
 	 *
 	 * @return array
 	 */
-	protected function get_events_that_start_and_end_around( Date_I18n_Immutable $first_date, Date_I18n_Immutable $last_date ) {
+	protected function get_events_that_start_and_end_around( $first_date, $last_date ) {
 		$first_date_beginning_of_day = tribe_beginning_of_day( $first_date->format( Dates::DBDATEFORMAT ) );
 		$last_date_beginning_of_day  = tribe_beginning_of_day( $last_date->format( Dates::DBDATEFORMAT ) );
 
@@ -208,15 +209,15 @@ class Summary_View extends List_View {
 	 * @since 1.0.0
 	 *
 	 * @param \WP_Post            $event Event post.
-	 * @param Date_I18n_Immutable $start_date Start date of the event.
-	 * @param Date_I18n_Immutable $end_date End date of the event.
+	 * @param Date_I18n|Date_I18n_Immutable $start_date Start date of the event.
+	 * @param Date_I18n|Date_I18n_Immutable $end_date End date of the event.
 	 * @param array               $dates Array of dates to organize events (by reference).
 	 *
 	 * @return array
 	 *
 	 * @throws \Exception
 	 */
-	protected function maybe_extend_event_to_other_dates( \WP_Post $event, Date_I18n_Immutable $start_date, Date_I18n_Immutable $end_date, array $dates ) {
+	protected function maybe_extend_event_to_other_dates( \WP_Post $event, $start_date, $end_date, array $dates ) {
 		$start_date_beginning = Dates::build_date_object( tribe_beginning_of_day( $start_date->format( Dates::DBDATETIMEFORMAT ) ) );
 		$end_date_beginning   = Dates::build_date_object( tribe_beginning_of_day( $end_date->format( Dates::DBDATETIMEFORMAT ) ) );
 
@@ -236,7 +237,7 @@ class Summary_View extends List_View {
 				$this->date_group_order_tracking[ $date ]++;
 			}
 
-			$dates[ $date ][ $event->dates->start->format( Dates::DBDATEFORMAT ) . ' 00:00:00 - ' . $this->date_group_order_tracking[ $date ] ] = $event;
+			$dates[ $date ][ $event->dates->start->format( Dates::DBDATEFORMAT ) . ' 00:00:00 - ' . str_pad( $this->date_group_order_tracking[ $date ], 3, '0', STR_PAD_LEFT ) ] = $event;
 		}
 
 		return $dates;
