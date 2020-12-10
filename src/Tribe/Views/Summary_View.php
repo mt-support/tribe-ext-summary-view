@@ -191,7 +191,7 @@ class Summary_View extends List_View {
 	 * @param \WP_Post $earliest_event First event in result set.
 	 * @param array $exclude_ids Event IDs in result set.
 	 *
-	 * @return array
+	 * @return WP_Post
 	 */
 	protected function get_previous_event( \WP_Post $earliest_event, array $exclude_ids = [] ) {
 		return tribe_events()

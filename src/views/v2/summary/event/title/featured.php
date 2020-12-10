@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Summary View - Single Event Mobile Featured Icon
+ * View: Summary View - Single Event Featured Icon
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/summary/event/date/featured.php
+ * [your-theme]/tribe/events/v2/summary/event/title/featured.php
  *
  * See more documentation about our views templating system.
  *
@@ -25,12 +25,12 @@ if ( empty( $event->featured ) ) {
 }
 ?>
 <em
-	class="tribe-events-calendar-list__event-datetime-featured-icon tribe-events-calendar-summary__event-datetime-icon"
+	class="tribe-events-calendar-list__event-datetime-featured-icon tribe-events-calendar-summary__event-title-icon"
 	aria-label="<?php esc_attr_e( 'Featured', 'the-events-calendar' ); ?>"
 	title="<?php esc_attr_e( 'Featured', 'the-events-calendar' ); ?>"
 >
 	<?php $this->template( 'components/icons/featured', [ 'classes' => [ 'tribe-events-calendar-list__event-datetime-featured-icon-svg' ] ] ); ?>
 </em>
-<span class="tribe-events-calendar-list__event-datetime-featured-text tribe-events-calendar-summary__event-datetime-featured-text tribe-common-a11y-visual-hide">
+<span class="tribe-events-calendar-list__event-datetime-featured-text tribe-events-calendar-summary__event-title-featured-text tribe-common-a11y-visual-hide">
 	<?php esc_html_e( 'Featured', 'the-events-calendar' ); ?>
 </span>
