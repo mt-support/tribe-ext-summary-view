@@ -30,6 +30,6 @@ if ( empty( $month_transition[ $group_date->format( Dates::DBDATEFORMAT ) ] ) ) 
 		datetime="<?php
 		echo esc_attr( $group_date->format( 'Y-m' ) ); ?>"
 	>
-		<?php echo esc_html( $group_date->format_i18n( 'F Y' ) ); ?>
+		<?php echo esc_html( $group_date->format_i18n( 'M Y' ) ); ?>
 	</time>
 </div>
