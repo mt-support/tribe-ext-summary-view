@@ -100,8 +100,8 @@
 	margin-right: 0;
 }
 
-.tribe-common .tribe-events-calendar-summary__event-title-icon + .tribe-events-calendar-summary__event-title-icon {
-	margin-left: 4px;
+em.tribe-events-calendar-summary__event-title-icon:last-of-type {
+	margin-right: 4px;
 }
 
 .tribe-common .tribe-events-calendar-summary__event-title-icon {
