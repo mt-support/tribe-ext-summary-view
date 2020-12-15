@@ -225,7 +225,9 @@ class Summary_View extends List_View {
 		$diff = $start_date_beginning->diff( $end_date_beginning )->format( '%a' );
 
 		for ( $i = 1; $i <= $diff; $i++ ) {
-			$date = tribe_beginning_of_day( $start_date->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
+			// Don't modify the $start_date in the loop!
+			$start = Dates::build_date_object( $start_date );
+			$date = tribe_beginning_of_day( $start->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 
 			if ( empty( $dates[ $date ] ) ) {
 				$dates[ $date ] = [];
