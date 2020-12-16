@@ -1,5 +1,13 @@
+.tribe-events-calendar-list__month-separator-text {
+	text-align: center;
+}
+
 .tribe-events-calendar-summary .tribe-events-calendar-list__month-separator + .tribe-events-calendar-list__date-separator {
 	display: none;
+}
+
+.tribe-events .tribe-events-calendar-list__month-separator:after {
+	margin-left: 0;
 }
 
 .tribe-events .tribe-events-calendar-summary .tribe-events-calendar-list__date-separator::after {
@@ -16,17 +24,15 @@
 }
 
 .tribe-events .tribe-events-calendar-summary .tribe-events-calendar-list__event-row {
-	margin-bottom: 16px;
-	margin-top: 16px;
+	margin: 16px 0;
 }
 
-.tribe-events .tribe-events-calendar-list__month-separator:after {
-	margin-left: 0;
+.tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-summary .tribe-events-calendar-list__event-row {
+	align-items: center;
 }
 
 .tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-list__month-separator + .tribe-events-calendar-list__event-row {
 	margin-bottom: 8px;
-	margin-top: 16px;
 }
 
 .tribe-common .tribe-events-calendar-summary .tribe-events-calendar-list__event-date-tag {
@@ -48,12 +54,6 @@
 .tribe-common .tribe-events-calendar-summary__event:only-child {
 	margin-bottom: 0;
 	margin-top: 0;
-}
-
-.tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-summary .tribe-events-calendar-list__event-row {
-	align-items: center;
-	margin-bottom: 16px;
-	margin-top: 16px;
 }
 
 .tribe-common--breakpoint-medium article .tribe-events-calendar-summary__event-header {
@@ -135,8 +135,8 @@ em.tribe-events-calendar-summary__event-title-icon:last-of-type {
 	display: none;
 }
 
-.tribe-events  .tribe-events-calendar-summary .tribe-events-calendar-list__event-datetime-recurring-link {
-	margin-left: 3px;
+.tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-summary .tribe-events-calendar-list__event-datetime-recurring-link {
+	margin-left: -1px;
 }
 
 .tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-list__event-datetime-recurring-icon.tribe-events-calendar-summary__event-datetime-icon {
