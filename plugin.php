@@ -29,7 +29,7 @@
  *
  * @var string Base file that loaded the plugin.
  */
-define( 'TRIBE_EXTENSION_COMPACT_VIEW_FILE', __FILE__ );
+define( 'TRIBE_EXTENSION_SUMMARY_VIEW_FILE', __FILE__ );
 
 /**
  * Register and load the service provider for loading the extension.
@@ -37,7 +37,7 @@ define( 'TRIBE_EXTENSION_COMPACT_VIEW_FILE', __FILE__ );
  * @since 1.0.0
  */
 function tribe_extension_summary_view() {
-	// When we dont have autoloader from common we bail.
+	// When we don't have autoloader from common we bail.
 	if  ( ! class_exists( 'Tribe__Autoloader' ) ) {
 		return;
 	}
@@ -55,7 +55,7 @@ function tribe_extension_summary_view() {
 			'summary-view',
 			'<p>' . esc_html__( 'Couldn\'t properly load "The Events Calendar Extension: Summary View" the extension was deactivated.', 'tribe-ext-summary-view' ) . '</p>',
 			[],
-			// 1 second after that make sure the transiet is removed.
+			// 1 second after that make sure the transient is removed.
 			1
 		);
 
@@ -72,3 +72,17 @@ function tribe_extension_summary_view() {
 
 // Loads after common is already properly loaded.
 add_action( 'tribe_common_loaded', 'tribe_extension_summary_view' );
+
+register_activation_hook( __FILE__, 'tribe_extension_summary_view_activation' );
+
+/**
+ * Enables the view on plugin activation.
+ *
+ * @since 1.0.0
+ */
+function tribe_extension_summary_view_activation() {
+	$enabled_views   = tribe_get_option('tribeEnableViews');
+	$enabled_views[] = 'summary';
+
+	tribe_update_option( 'tribeEnableViews', $enabled_views );
+}

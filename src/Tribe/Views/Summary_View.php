@@ -98,7 +98,7 @@ class Summary_View extends List_View {
 				$month_transition[ $group_date ] = $group_date;
 			}
 
-			if ( ! isset( $events_by_date[ $group_date ] ) ) {
+			if ( empty( $events_by_date[ $group_date ] ) ) {
 				$events_by_date[ $group_date ] = [];
 			}
 
@@ -326,7 +326,7 @@ class Summary_View extends List_View {
 	protected function inject_events_into_result_dates( array $injectable_events, array $events_by_date ) {
 		foreach ( $injectable_events as $date => $events ) {
 			if ( ! isset( $events_by_date[ $date ] ) ) {
-				continue;
+				$events_by_date[ $date ] = [];
 			}
 
 			$events_by_date[ $date ] = array_merge( $events, $events_by_date[ $date ] );

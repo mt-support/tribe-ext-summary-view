@@ -136,7 +136,7 @@ em.tribe-events-calendar-summary__event-title-icon:last-of-type {
 }
 
 .tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-summary .tribe-events-calendar-list__event-datetime-recurring-link {
-	margin-left: -1px;
+	margin-top: -1px;
 }
 
 .tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-list__event-datetime-recurring-icon.tribe-events-calendar-summary__event-datetime-icon {
