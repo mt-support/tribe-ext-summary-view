@@ -28,7 +28,6 @@ $event_classes['tribe-events-calendar-summary__event-row--featured'] = $event->f
 		<header class="tribe-events-calendar-summary__event-header">
 			<?php $this->template( 'summary/event/date', [ 'event' => $event, 'group_date' => $group_date ] ); ?>
 			<?php $this->template( 'summary/event/title', [ 'event' => $event ] ); ?>
-			<?php $this->template( 'summary/event/cost', [ 'event' => $event ] ); ?>
 		</header>
 
 	</div>
