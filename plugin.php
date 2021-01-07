@@ -81,7 +81,12 @@ register_activation_hook( __FILE__, 'tribe_extension_summary_view_activation' );
  * @since 1.0.0
  */
 function tribe_extension_summary_view_activation() {
-	$enabled_views   = tribe_get_option('tribeEnableViews');
+	$enabled_views = tribe_get_option('tribeEnableViews');
+
+	if ( in_array( 'summary', $enabled_views ) ) {
+		return;
+	}
+
 	$enabled_views[] = 'summary';
 
 	tribe_update_option( 'tribeEnableViews', $enabled_views );

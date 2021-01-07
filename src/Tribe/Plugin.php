@@ -138,11 +138,4 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		$this->container->singleton( Plugin_Register::class, $plugin_register );
 		$this->container->singleton( 'extension.summary_view', $plugin_register );
 	}
-
-	protected function plugin_activated() {
-		$enabled_views   = tribe_get_option('tribeEnableViews');
-		$enabled_views[] = $this::VIEW_SLUG;
-
-		tribe_update_option( 'tribeEnableViews', $enabled_views );
-	}
 }
