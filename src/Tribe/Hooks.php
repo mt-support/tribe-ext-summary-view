@@ -54,7 +54,6 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 */
 	protected function add_actions() {
 		add_action( 'tribe_load_text_domains', [ $this, 'load_text_domains' ] );
-		add_action( 'tribe_events_pre_rewrite', [ $this, 'filter_add_routes' ], 5 );
 	}
 
 	/**

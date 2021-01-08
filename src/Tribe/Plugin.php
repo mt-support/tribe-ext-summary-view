@@ -43,7 +43,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 *
 	 * @var string
 	 */
-	const FILE = TRIBE_EXTENSION_COMPACT_VIEW_FILE;
+	const FILE = TRIBE_EXTENSION_SUMMARY_VIEW_FILE;
 
 	/**
 	 * @since 1.0.0
@@ -75,6 +75,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 */
 	public $template_namespace = 'events';
 
+
 	/**
 	 * Setup the Extension's properties.
 	 *
@@ -92,18 +93,11 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		$this->container->singleton( static::class, $this );
 		$this->container->singleton( 'extension.summary_view', $this );
 		$this->container->singleton( 'extension.summary_view.plugin', $this );
-		$this->container->register( PUE::class );
 
 		if ( ! $this->check_plugin_dependencies() ) {
 			// If the plugin dependency manifest is not met, then bail and stop here.
 			return;
 		}
-
-		// Start binds.
-
-
-
-		// End binds.
 
 		include_once $this->plugin_path . 'src/functions/general.php';
 

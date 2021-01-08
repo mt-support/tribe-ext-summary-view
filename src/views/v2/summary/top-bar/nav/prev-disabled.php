@@ -21,5 +21,6 @@ $label = sprintf( __( 'Previous %1$s', 'the-events-calendar' ), tribe_get_event_
 		title="<?php echo esc_attr( $label ); ?>"
 		disabled
 	>
+		<?php $this->template( 'components/icons/caret-left', [ 'classes' => [ 'tribe-events-c-nav__prev-icon-svg' ] ] ); ?>
 	</button>
 </li>

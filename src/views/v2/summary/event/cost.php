@@ -19,8 +19,20 @@
 if ( empty( $event->cost ) ) {
 	return;
 }
+
+// ET isn't loaded correctly, and we need this function.
+if ( ! function_exists( 'tribe_get_ticket_label_plural' )) {
+	return;
+}
 ?>
 <div class="tribe-events-c-small-cta tribe-common-b3 tribe-events-calendar-summary__event-cost">
+	<a
+		href="<?php echo esc_url( $event->permalink ); ?>"
+		title="<?php echo esc_attr( $event->title ); ?>"
+		rel="bookmark"
+		class=" tribe-common-b3--bold tribe-events-c-small-cta__text"
+	><?php echo sprintf( __( 'Get %1$s', 'the-events-calendar' ), tribe_get_ticket_label_plural() ); ?></a>
+	</span>
 	<span class="tribe-events-c-small-cta__price">
 		<?php echo esc_html( $event->cost ) ?>
 	</span>

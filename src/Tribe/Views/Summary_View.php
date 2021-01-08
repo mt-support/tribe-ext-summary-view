@@ -98,7 +98,7 @@ class Summary_View extends List_View {
 				$month_transition[ $group_date ] = $group_date;
 			}
 
-			if ( ! isset( $events_by_date[ $group_date ] ) ) {
+			if ( empty( $events_by_date[ $group_date ] ) ) {
 				$events_by_date[ $group_date ] = [];
 			}
 
@@ -191,7 +191,7 @@ class Summary_View extends List_View {
 	 * @param \WP_Post $earliest_event First event in result set.
 	 * @param array $exclude_ids Event IDs in result set.
 	 *
-	 * @return array
+	 * @return \WP_Post
 	 */
 	protected function get_previous_event( \WP_Post $earliest_event, array $exclude_ids = [] ) {
 		return tribe_events()
@@ -225,7 +225,9 @@ class Summary_View extends List_View {
 		$diff = $start_date_beginning->diff( $end_date_beginning )->format( '%a' );
 
 		for ( $i = 1; $i <= $diff; $i++ ) {
-			$date = tribe_beginning_of_day( $start_date->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
+			// Don't modify the $start_date in the loop!
+			$start = Dates::build_date_object( $start_date );
+			$date = tribe_beginning_of_day( $start->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 
 			if ( empty( $dates[ $date ] ) ) {
 				$dates[ $date ] = [];
@@ -324,7 +326,7 @@ class Summary_View extends List_View {
 	protected function inject_events_into_result_dates( array $injectable_events, array $events_by_date ) {
 		foreach ( $injectable_events as $date => $events ) {
 			if ( ! isset( $events_by_date[ $date ] ) ) {
-				continue;
+				$events_by_date[ $date ] = [];
 			}
 
 			$events_by_date[ $date ] = array_merge( $events, $events_by_date[ $date ] );
