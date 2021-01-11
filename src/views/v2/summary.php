@@ -74,6 +74,9 @@ add_filter( 'tribe_format_second_date_in_range', static function() {
 
 			<?php foreach ( $events_by_date as $group_date => $events_data ) : ?>
 				<?php
+					if ( empty( $events_data ) ) {
+						continue;
+					}
 					$event = current( $events_data );
 					$this->setup_postdata( $event );
 					$group_date = Dates::build_date_object( $group_date );

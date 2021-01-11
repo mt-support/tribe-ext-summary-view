@@ -16,7 +16,7 @@
  * @see tribe_get_event() For the format of the event object.
  */
 ?>
-<h3 class="tribe-events-calendar-summary__event-title tribe-common-h8 tribe-common-h7--min-medium">
+<h3 class="tribe-common-h8 tribe-common-h7--min-medium tribe-events-calendar-summary__event-title">
 	<?php $this->template( 'summary/event/title/featured' ); ?>
 	<?php $this->template( 'summary/event/title/virtual' ); ?>
 	<a

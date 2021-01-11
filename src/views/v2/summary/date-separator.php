@@ -21,7 +21,7 @@
 ?>
 <div class="tribe-events-calendar-list__date-separator">
 	<time
-		class="tribe-events-calendar-list__date-separator-text tribe-common-h7 tribe-common-h6--min-medium tribe-common-h--alt"
+		class="tribe-common-h7 tribe-common-h6--min-medium tribe-common-h--alt tribe-events-calendar-list__date-separator-text"
 		datetime="<?php echo esc_attr( $group_date->format( 'Y-m-d' ) ); ?>"
 	>
 	</time>
