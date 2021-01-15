@@ -23,7 +23,7 @@ $event_classes['tribe-events-calendar-summary__event-row--featured'] = $event->f
 ?>
 <article <?php tribe_classes( $event_classes ) ?>>
 
-	<div class="tribe-events-calendar-summary__event-details tribe-common-g-col">
+	<div class="tribe-common-g-col tribe-events-calendar-summary__event-details">
 
 		<header class="tribe-events-calendar-summary__event-header">
 			<?php $this->template( 'summary/event/date', [ 'event' => $event, 'group_date' => $group_date ] ); ?>

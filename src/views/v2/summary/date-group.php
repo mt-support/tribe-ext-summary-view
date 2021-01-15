@@ -26,7 +26,7 @@ $container_classes = [ 'tribe-common-g-row', 'tribe-events-calendar-list__event-
 	<?php $this->setup_postdata( $event ); ?>
 	<?php $this->template( 'summary/event/date-tag', [ 'event' => $event, 'group_date' => $group_date ] ); ?>
 
-	<div class="tribe-events-calendar-summary__event-wrapper <?php if ( 1 < count( $events_for_date) ) { echo esc_attr('tribe-events-calendar-summary__event-wrapper--multi-event'); } ?> tribe-common-g-col">
+	<div class="tribe-common-g-col tribe-events-calendar-summary__event-wrapper <?php if ( 1 < count( $events_for_date) ) { echo esc_attr('tribe-events-calendar-summary__event-wrapper--multi-event'); } ?>">
 		<?php foreach ( $events_for_date as $event ) : ?>
 			<?php $this->setup_postdata( $event ); ?>
 			<?php $this->template( 'summary/event', [ 'event' => $event, 'group_date' => $group_date ] ); ?>

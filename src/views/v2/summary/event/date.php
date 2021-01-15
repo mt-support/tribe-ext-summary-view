@@ -24,7 +24,7 @@ $event->schedule_details;
 $formatted_start_date = $event->dates->start->format( Dates::DBDATEFORMAT );
 $formatted_group_date = $group_date->format( Dates::DBDATEFORMAT );
 ?>
-<div class="tribe-events-calendar-summary__event-datetime-wrapper tribe-common-b3">
+<div class="tribe-common-b3 tribe-events-calendar-summary__event-datetime-wrapper">
 	<time class="tribe-events-calendar-summary__event-datetime" datetime="<?php echo esc_attr( $formatted_start_date ); ?>" title="<?php echo $event->start_date . ' :: ' . $event->end_date; ?>">
 		<?php if ( ! $event->multiday ) : ?>
 			<span class="tribe-event-date-start"><?php echo esc_html( $event->summary_view->start_time ); ?></span> -
