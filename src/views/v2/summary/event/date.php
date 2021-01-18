@@ -26,15 +26,34 @@ $formatted_group_date = $group_date->format( Dates::DBDATEFORMAT );
 ?>
 <div class="tribe-common-b3 tribe-events-calendar-summary__event-datetime-wrapper">
 	<time class="tribe-events-calendar-summary__event-datetime" datetime="<?php echo esc_attr( $formatted_start_date ); ?>" title="<?php echo $event->start_date . ' :: ' . $event->end_date; ?>">
-		<?php if ( ! $event->multiday ) : ?>
-			<span class="tribe-event-date-start"><?php echo esc_html( $event->summary_view->start_time ); ?></span> -
-			<span class="tribe-event-date-end"><?php echo esc_html( $event->summary_view->end_time ); ?></span>
+		<?php if ( tribe_event_is_all_day( $event ) ) : ?>
+			<span class="tribe-event-date-start">
+				<?php echo esc_html_x( 'All day', 'Label for an all-day event.', 'tribe-ext-summary-view' ); ?>
+			</span>
+		<?php elseif ( ! $event->multiday ) : ?>
+			<span class="tribe-event-date-start">
+				<?php echo esc_html( $event->summary_view->start_time ); ?>
+			</span> - <span class="tribe-event-date-end">
+				<?php echo esc_html( $event->summary_view->end_time ); ?>
+			</span>
 		<?php elseif ( ! empty( $event->summary_view ) && $event->summary_view->start_date === $formatted_group_date ) : ?>
-			<span class="tribe-event-date-start"><?php echo esc_html( $event->summary_view->start_time ); ?></span>
-		<?php elseif ( ! empty( $event->summary_view ) && $event->summary_view->end_date === $formatted_group_date ) : ?>
-			<?php echo _x( 'to', '"to" as in "from DATE to DATE"', 'tribe-ext-summary-view' ); ?> <span class="tribe-event-date-end"><?php echo esc_html( $event->summary_view->end_time ); ?></span>
-		<?php else : ?>
-			<span class="tribe-event-date-start"><?php echo esc_html( __( 'All day', 'tribe-ext-summary-view' ) ); ?></span>
+			<span class="tribe-event-date-start">
+				<?php
+					echo esc_html( $event->summary_view->start_time . ' ' );
+					echo _x( 'on', '"on" as in "from TIME on/onwards"', 'tribe-ext-summary-view' );
+				?>
+			</span>
+        <?php elseif ( ! empty( $event->summary_view ) && $event->summary_view->end_date === $formatted_group_date ) : ?>
+			<span class="tribe-event-date-end">
+				<?php
+					echo _x( 'to', '"to" as in "from DATE to DATE"', 'tribe-ext-summary-view' );
+					echo esc_html( ' ' . $event->summary_view->end_time );
+				?>
+			</span>
+        <?php else : ?>
+            <span class="tribe-event-date-start">
+				<?php echo esc_html_x( 'All day', 'Label for an all-day event.', 'tribe-ext-summary-view' ); ?>
+			</span>
 		<?php endif; ?>
 	</time>
 	<?php $this->template( 'summary/event/date/meta', [ 'event' => $event ] ); ?>
