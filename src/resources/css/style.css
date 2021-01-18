@@ -102,9 +102,12 @@
 	margin-left: 2px;
 }
 
+.tribe-events .tribe-events-calendar-summary .tribe-events-c-small-cta__text {
+	margin-left: 0;
+}
+
 .tribe-events .tribe-events-calendar-summary a.tribe-events-c-small-cta__text {
 	border-bottom: 1px solid #334aff;
-	margin-left: 0;
 }
 
 .tribe-events .tribe-events-calendar-summary .tribe-events-c-small-cta__price {

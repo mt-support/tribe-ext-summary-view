@@ -38,10 +38,7 @@ $formatted_group_date = $group_date->format( Dates::DBDATEFORMAT );
 			</span>
 		<?php elseif ( ! empty( $event->summary_view ) && $event->summary_view->start_date === $formatted_group_date ) : ?>
 			<span class="tribe-event-date-start">
-				<?php
-					echo esc_html( $event->summary_view->start_time . ' ' );
-					echo _x( 'on', '"on" as in "from TIME on/onwards"', 'tribe-ext-summary-view' );
-				?>
+				<?php echo esc_html( $event->summary_view->start_time . ' ' ); ?>
 			</span>
         <?php elseif ( ! empty( $event->summary_view ) && $event->summary_view->end_date === $formatted_group_date ) : ?>
 			<span class="tribe-event-date-end">
