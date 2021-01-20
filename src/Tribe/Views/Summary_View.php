@@ -233,13 +233,7 @@ class Summary_View extends List_View {
 				$dates[ $date ] = [];
 			}
 
-			if ( ! isset( $this->date_group_order_tracking[ $date ] ) ) {
-				$this->date_group_order_tracking[ $date ] = 1;
-			} else {
-				$this->date_group_order_tracking[ $date ]++;
-			}
-
-			$dates[ $date ][ $event->dates->start->format( Dates::DBDATEFORMAT ) . ' 00:00:00 - ' . str_pad( $this->date_group_order_tracking[ $date ], 3, '0', STR_PAD_LEFT ) ] = $event;
+			$dates[ $date ][ $event->dates->start->format( Dates::DBDATETIMEFORMAT ) . ' - ' . $event->ID ] = $event;
 		}
 
 		return $dates;
