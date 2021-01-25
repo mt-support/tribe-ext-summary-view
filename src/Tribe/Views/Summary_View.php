@@ -122,12 +122,31 @@ class Summary_View extends List_View {
 		return $template_vars;
 	}
 
-	protected function add_view_specific_properties_to_event( $event ) {
+	protected function add_view_specific_properties_to_event( $event, $group_date ) {
 		$start_date = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 		$end_date   = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 
-		$formatted_start_date_beginning = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), tribe_get_option( 'dateWithoutYearFormat' ) );
-		$formatted_end_date_ending      = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), tribe_get_option( 'dateWithoutYearFormat' ) );
+		$format = tribe_get_option( 'dateWithoutYearFormat' );
+		$formatted_start_date_beginning = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), $format );
+		$formatted_end_date_ending      = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), $format );
+		$formatted_group_date           = tribe_beginning_of_day( $group_date, $format );
+
+		$is_multiday_start = false !== $event->multiday && $formatted_group_date === $formatted_start_date_beginning;
+		$is_multiday_end   = false !== $event->multiday && $formatted_group_date === $formatted_end_date_ending;
+		$is_all_day        = tribe_event_is_all_day( $event );
+
+		$counts = class_exists( 'Tribe__Tickets__Tickets' ) ? \Tribe__Tickets__Tickets::get_ticket_counts( $event->ID ) : [];
+
+		$has_tickets = ! empty( $counts['tickets'] ) && ! empty( array_filter( $counts['tickets'] ) );
+		$has_rsvp    = ! empty( $counts['rsvp'] ) && ! empty( array_filter( $counts['rsvp'] ) );
+
+		if (
+			false !== $event->multiday
+			&& ! $is_multiday_start
+			&& ! $is_multiday_end
+		) {
+			$is_all_day = true;
+		}
 
 		$event->summary_view = (object) [
 			'start_time'           => $event->dates->start->format( 'g:i a'),
@@ -136,6 +155,11 @@ class Summary_View extends List_View {
 			'end_date'             => $end_date,
 			'formatted_start_date' => $formatted_start_date_beginning,
 			'formatted_end_date'   => $formatted_end_date_ending,
+			'is_multiday_start'    => $is_multiday_start,
+			'is_multiday_end'      => $is_multiday_end,
+			'is_all_day'           => $is_all_day,
+			'has_tickets'          => $has_tickets,
+			'has_rsvp'             => $has_rsvp,
 		];
 
 		return $event;
@@ -221,6 +245,7 @@ class Summary_View extends List_View {
 		$start_date_beginning = Dates::build_date_object( tribe_beginning_of_day( $start_date->format( Dates::DBDATETIMEFORMAT ) ) );
 		$end_date_beginning   = Dates::build_date_object( tribe_beginning_of_day( $end_date->format( Dates::DBDATETIMEFORMAT ) ) );
 
+
 		// Calculate the difference in days between the start and end of the event.
 		$diff = $start_date_beginning->diff( $end_date_beginning )->format( '%a' );
 
@@ -228,6 +253,7 @@ class Summary_View extends List_View {
 			// Don't modify the $start_date in the loop!
 			$start = Dates::build_date_object( $start_date );
 			$date = tribe_beginning_of_day( $start->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
+			$event  = $this->add_view_specific_properties_to_event( $event, $date );
 
 			if ( empty( $dates[ $date ] ) ) {
 				$dates[ $date ] = [];
