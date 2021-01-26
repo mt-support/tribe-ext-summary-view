@@ -145,3 +145,8 @@ em.tribe-events-calendar-summary__event-title-icon:last-of-type {
 .tribe-events-calendar-summary .tribe-events-virtual-virtual-event__icon-svg {
 	height: 10px;
 }
+
+
+.tribe-events--filter-bar-vertical.tribe-common--breakpoint-medium .tribe-events-l-container > .tribe-events-calendar-summary {
+	width: calc(100% - 266px);
+}
