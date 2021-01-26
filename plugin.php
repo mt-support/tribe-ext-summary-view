@@ -90,4 +90,10 @@ function tribe_extension_summary_view_activation() {
 	$enabled_views[] = 'summary';
 
 	tribe_update_option( 'tribeEnableViews', $enabled_views );
+
+	// Fixes "ugly permalinks" on activation.
+	// Check seems silly, but might as well not do it if it's not needed.
+	if ( get_option('permalink_structure') ) {
+		flush_rewrite_rules();
+	}
 }
