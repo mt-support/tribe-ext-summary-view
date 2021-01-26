@@ -20,6 +20,6 @@
 <span class="tribe-event-date-start">
 	<?php
 		echo esc_html( $event->summary_view->start_time . ' ' );
-		echo _x( 'Onwards', '"onwards" as in "from TIME onwards"', 'tribe-ext-summary-view' );
+		echo _x( 'onwards', '"onwards" as in "from TIME onwards"', 'tribe-ext-summary-view' );
 	?>
 </span>

@@ -22,4 +22,5 @@
 		echo _x( 'Until', '"until" as in "from DATE until DATE"', 'tribe-ext-summary-view' );
 		echo esc_html( ' ' . $event->summary_view->end_time );
 	?>
+
 </span>

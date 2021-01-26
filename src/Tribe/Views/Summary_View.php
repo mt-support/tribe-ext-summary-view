@@ -13,6 +13,7 @@ use Tribe__Date_Utils as Dates;
 use Tribe\Events\Views\V2\Views\List_View;
 use Tribe\Utils\Date_I18n;
 use Tribe\Utils\Date_I18n_Immutable;
+use Tribe__Events__Timezones as Timezones;
 
 class Summary_View extends List_View {
 
@@ -140,6 +141,7 @@ class Summary_View extends List_View {
 		$has_tickets = ! empty( $counts['tickets'] ) && ! empty( array_filter( $counts['tickets'] ) );
 		$has_rsvp    = ! empty( $counts['rsvp'] ) && ! empty( array_filter( $counts['rsvp'] ) );
 
+		// Make "middle" days of a multi-day event all-day events.
 		if (
 			false !== $event->multiday
 			&& ! $is_multiday_start
@@ -148,9 +150,14 @@ class Summary_View extends List_View {
 			$is_all_day = true;
 		}
 
+		$end_date = $event->dates->end_display->format( get_option( 'time_format' ) );
+		if ( tribe_get_option( 'tribe_events_timezones_show_zone', false )) {
+			$end_date .= ' ' . $event->dates->end_display->format( 'T' );
+		}
+
 		$event->summary_view = (object) [
-			'start_time'           => $event->dates->start->format( 'g:i a'),
-			'end_time'             => $event->dates->end->format( 'g:i a'),
+			'start_time'           => $event->dates->start_display->format( get_option( 'time_format' ) ),
+			'end_time'             => $end_date,
 			'start_date'           => $start_date,
 			'end_date'             => $end_date,
 			'formatted_start_date' => $formatted_start_date_beginning,
@@ -250,16 +257,19 @@ class Summary_View extends List_View {
 		$diff = $start_date_beginning->diff( $end_date_beginning )->format( '%a' );
 
 		for ( $i = 1; $i <= $diff; $i++ ) {
+			// We need to clone the event here so we don't change all versions of it each iteration!
+			$new_event = clone $event;
+
 			// Don't modify the $start_date in the loop!
 			$start = Dates::build_date_object( $start_date );
 			$date = tribe_beginning_of_day( $start->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
-			$event  = $this->add_view_specific_properties_to_event( $event, $date );
+			$new_event  = $this->add_view_specific_properties_to_event( $new_event, $date );
 
 			if ( empty( $dates[ $date ] ) ) {
 				$dates[ $date ] = [];
 			}
 
-			$dates[ $date ][ $event->dates->start->format( Dates::DBDATETIMEFORMAT ) . ' - ' . $event->ID ] = $event;
+			$dates[ $date ][ $date . ' - ' . $new_event->ID ] = $new_event;
 		}
 
 		return $dates;
