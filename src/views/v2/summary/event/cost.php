@@ -51,7 +51,7 @@ $is_sold_out = $event->tickets->sold_out();
 			title="<?php echo esc_attr( $event->title ); ?>"
 			rel="bookmark"
 			class=" tribe-common-b3--bold tribe-events-c-small-cta__text"
-		><?php echo esc_html( sprintf( __( '%1$s', 'the-events-calendar' ), tribe_get_rsvp_label_singular() ) ); ?></a>
+		><?php echo esc_html( sprintf( __( '%1$s now', 'the-events-calendar' ), tribe_get_rsvp_label_singular() ) ); ?></a>
 		</a>
 	<?php endif; ?>
 </div>
