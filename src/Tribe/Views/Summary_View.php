@@ -134,7 +134,7 @@ class Summary_View extends List_View {
 
 		$is_multiday_start = false !== $event->multiday && $formatted_group_date === $formatted_start_date_beginning;
 		$is_multiday_end   = false !== $event->multiday && $formatted_group_date === $formatted_end_date_ending;
-		$is_all_day        = tribe_event_is_all_day( $event );
+		$is_all_day        = $event->all_day;
 
 		$counts = class_exists( 'Tribe__Tickets__Tickets' ) ? \Tribe__Tickets__Tickets::get_ticket_counts( $event->ID ) : [];
 
