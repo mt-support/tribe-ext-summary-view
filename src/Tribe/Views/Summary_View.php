@@ -90,7 +90,7 @@ class Summary_View extends List_View {
 		$start_date = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 		$end_date   = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 
-		$format = tribe_get_option( 'dateWithoutYearFormat' );
+		$format                         = tribe_get_date_option( 'dateWithoutYearFormat', Dates::DBDATEFORMAT );
 		$formatted_start_date_beginning = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), $format );
 		$formatted_end_date_ending      = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), $format );
 		$formatted_group_date           = tribe_beginning_of_day( $group_date, $format );
@@ -113,14 +113,20 @@ class Summary_View extends List_View {
 			$is_all_day = true;
 		}
 
-		$end_date = $event->dates->end_display->format( get_option( 'time_format' ) );
+		$date_format = get_option( 'time_format' );
+		$end_time    = $event->dates->end_display->format( $date_format );
+		$start_time  = $event->dates->start_display->format( get_option( 'time_format' ) );
 		if ( tribe_get_option( 'tribe_events_timezones_show_zone', false )) {
-			$end_date .= ' ' . $event->dates->end_display->format( 'T' );
+			if ( ! $is_multiday_start ) {
+				$end_time .= ' ' . $event->dates->end_display->format( 'T' );
+			} else {
+				$start_time .= ' ' . $event->dates->end_display->format( 'T' );
+			}
 		}
 
 		$event->summary_view = (object) [
-			'start_time'           => $event->dates->start_display->format( get_option( 'time_format' ) ),
-			'end_time'             => $end_date,
+			'start_time'           => $start_time,
+			'end_time'             => $end_time,
 			'start_date'           => $start_date,
 			'end_date'             => $end_date,
 			'formatted_start_date' => $formatted_start_date_beginning,

@@ -94,6 +94,6 @@ function tribe_extension_summary_view_activation() {
 	// Fixes "ugly permalinks" on activation.
 	// Check seems silly, but might as well not do it if it's not needed.
 	if ( get_option('permalink_structure') ) {
-		flush_rewrite_rules();
+		set_transient( '_tribe_events_delayed_flush_rewrite_rules', 'yes', 0 );
 	}
 }
