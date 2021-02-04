@@ -18,6 +18,7 @@
  *
  * @version 1.0.0
  */
+
 use Tribe__Date_Utils as Dates;
 
 //$event->schedule_details;
@@ -27,7 +28,7 @@ $formatted_start_date = $event->dates->start->format( Dates::DBDATEFORMAT );
 	<time
 		class="tribe-events-calendar-summary__event-datetime"
 		datetime="<?php echo esc_attr( $formatted_start_date ); ?>"
-		title="<?php echo $event->start_date . ' :: ' . $event->end_date; ?>"
+		title="<?php echo esc_attr( $event->start_date . ' :: ' . $event->end_date ); ?>"
 	>
 		<?php if ( $event->summary_view->is_all_day ) : ?>
 			<?php $this->template( 'summary/event/date/all-day', [ 'event' => $event ] ); ?>

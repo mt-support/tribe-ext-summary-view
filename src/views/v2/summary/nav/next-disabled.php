@@ -10,7 +10,6 @@
  * @link http://m.tri.be/1aiy
  *
  * @version 1.0.0
- *
  */
 
 /* translators: %s: Event (plural or singular). */

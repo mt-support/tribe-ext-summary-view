@@ -12,8 +12,8 @@
  * @var string $today_url The URL to the today page.
  *
  * @version 1.0.0
- *
  */
+
 ?>
 <li class="tribe-events-c-nav__list-item tribe-events-c-nav__list-item--today">
 	<a

@@ -10,8 +10,8 @@
  * @link http://m.tri.be/1aiy
  *
  * @version 1.0.0
- *
  */
+
 $label = sprintf( __( 'Next %1$s', 'the-events-calendar' ), tribe_get_event_label_plural() );
 ?>
 <li class="tribe-events-c-top-bar__nav-list-item">

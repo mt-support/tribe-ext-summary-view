@@ -16,11 +16,16 @@
  *
  * @see tribe_get_event() For the format of the event object.
  */
+
 ?>
 <span class="tribe-event-date-end">
-	<?php
-		echo _x( 'Until', '"until" as in "from DATE until DATE"', 'tribe-ext-summary-view' );
-		echo esc_html( ' ' . $event->summary_view->end_time );
+	<?php echo esc_html(
+		sprintf(
+			/* Translators: %1$s: The event time. */
+			_x( 'Until %1$s', '"until" as in "from DATE until DATE"', 'tribe-ext-summary-view' ),
+			$event->summary_view->end_time
+		)
+	);
 	?>
 
 </span>

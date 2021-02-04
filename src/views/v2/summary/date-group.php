@@ -20,7 +20,7 @@
 
 $container_classes = [ 'tribe-common-g-row', 'tribe-events-calendar-list__event-row' ];
 
-if ( 1 < count( $events_for_date) ) {
+if ( 1 < count( $events_for_date ) ) {
 	$container_classes[] = 'tribe-events-calendar-list__event-row--multi-event';
 }
 ?>

@@ -16,6 +16,7 @@
  *
  * @see tribe_get_event() For the format of the event object.
  */
+
 ?>
 <span class="tribe-event-date-start">
 	<?php echo esc_html_x( 'All day', 'Label for an all-day event.', 'tribe-ext-summary-view' ); ?>

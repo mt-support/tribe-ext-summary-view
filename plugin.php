@@ -38,7 +38,7 @@ define( 'TRIBE_EXTENSION_SUMMARY_VIEW_FILE', __FILE__ );
  */
 function tribe_extension_summary_view() {
 	// When we don't have autoloader from common we bail.
-	if  ( ! class_exists( 'Tribe__Autoloader' ) ) {
+	if ( ! class_exists( 'Tribe__Autoloader' ) ) {
 		return;
 	}
 
@@ -81,7 +81,7 @@ register_activation_hook( __FILE__, 'tribe_extension_summary_view_activation' );
  * @since 1.0.0
  */
 function tribe_extension_summary_view_activation() {
-	$enabled_views = tribe_get_option('tribeEnableViews');
+	$enabled_views = tribe_get_option( 'tribeEnableViews' );
 
 	if ( in_array( 'summary', $enabled_views ) ) {
 		return;
@@ -93,7 +93,7 @@ function tribe_extension_summary_view_activation() {
 
 	// Fixes "ugly permalinks" on activation.
 	// Check seems silly, but might as well not do it if it's not needed.
-	if ( get_option('permalink_structure') ) {
+	if ( get_option( 'permalink_structure' ) ) {
 		set_transient( '_tribe_events_delayed_flush_rewrite_rules', 'yes', 0 );
 	}
 }

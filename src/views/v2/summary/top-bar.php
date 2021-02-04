@@ -10,8 +10,8 @@
  * @link http://m.tri.be/1aiy
  *
  * @version 1.0.0
- *
  */
+
 ?>
 <div class="tribe-events-c-top-bar tribe-events-header__top-bar">
 

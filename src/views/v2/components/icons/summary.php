@@ -11,13 +11,13 @@
  *
  * @var array<string> $classes Additional classes to add to the svg icon.
  *
- * @version 4.12.14
- *
+ * @version 1.0.0
  */
+
 $svg_classes = [
 	'tribe-common-c-svgicon',
 	'tribe-common-c-svgicon--summary',
-	'tribe-common-c-svgicon__svg-stroke'
+	'tribe-common-c-svgicon__svg-stroke',
 ];
 
 if ( ! empty( $classes ) ) {

@@ -14,7 +14,6 @@
  * @var WP_Post $event The event post object with properties added by the `tribe_get_event` function.
  *
  * @see tribe_get_event() For the format of the event object.
- *
  */
 
 if ( empty( $event->cost ) ) {
@@ -22,7 +21,7 @@ if ( empty( $event->cost ) ) {
 }
 
 // ET isn't loaded correctly, and we need this function.
-if ( ! function_exists( 'tribe_get_ticket_label_plural' )) {
+if ( ! function_exists( 'tribe_get_ticket_label_plural' ) ) {
 	return;
 }
 

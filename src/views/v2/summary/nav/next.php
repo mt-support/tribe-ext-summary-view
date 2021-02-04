@@ -12,7 +12,6 @@
  * @var string $link The URL to the next page.
  *
  * @version 1.0.0
- *
  */
 
 /* translators: %s: Event (plural or singular). */
