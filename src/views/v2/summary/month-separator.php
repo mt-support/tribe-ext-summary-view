@@ -18,17 +18,18 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-use Tribe__Date_Utils as Dates;
+if ( ! in_array( $event->ID, $month_transition ) ) {
+	return;
+}
 
-if ( empty( $month_transition[ $group_date->format( Dates::DBDATEFORMAT ) ] ) ) {
+if ( $event->multiday && ! $event->summary_view->is_multiday_start ) {
 	return;
 }
 ?>
 <div class="tribe-events-calendar-list__month-separator">
 	<time
 		class="tribe-common-h7 tribe-common-h6--min-medium tribe-common-h--alt tribe-events-calendar-list__event-date-tag tribe-events-calendar-list__month-separator-text"
-		datetime="<?php
-		echo esc_attr( $group_date->format( 'Y-m' ) ); ?>"
+		datetime="<?php echo esc_attr( $group_date->format( 'Y-m' ) ); ?>"
 	>
 		<?php echo esc_html( $group_date->format_i18n( 'M Y' ) ); ?>
 	</time>

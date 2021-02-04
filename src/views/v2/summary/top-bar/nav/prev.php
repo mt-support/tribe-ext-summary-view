@@ -12,8 +12,8 @@
  * @var string $prev_url The URL to the previous page, if any, or an empty string.
  *
  * @version 1.0.0
- *
  */
+
 $label = sprintf( __( 'Previous %1$s', 'the-events-calendar' ), tribe_get_event_label_plural() );
 ?>
 <li class="tribe-events-c-top-bar__nav-list-item">

@@ -17,7 +17,6 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-
 $event_classes = tribe_get_post_class( [ 'tribe-events-calendar-summary__event', 'tribe-common-g-row', 'tribe-common-g-row--gutters' ], $event->ID );
 $event_classes['tribe-events-calendar-summary__event-row--featured'] = $event->featured;
 ?>

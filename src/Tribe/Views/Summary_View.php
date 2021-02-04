@@ -8,11 +8,15 @@
 
 namespace Tribe\Extensions\Summary_View\Views;
 
+use DateInterval;
 use Tribe__Context as Context;
 use Tribe__Date_Utils as Dates;
 use Tribe\Events\Views\V2\Views\List_View;
 use Tribe\Utils\Date_I18n;
 use Tribe\Utils\Date_I18n_Immutable;
+use Tribe__Events__Timezones as Timezones;
+
+use function Patchwork\Utils\args;
 
 class Summary_View extends List_View {
 
@@ -26,42 +30,6 @@ class Summary_View extends List_View {
 	protected $slug = 'summary';
 
 	/**
-	 * Events per page
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var int
-	 */
-	protected $events_per_page = 25;
-
-	protected $date_group_order_tracking = [];
-
-	/**
-	 * {@inheritDoc}
-	 */
-	protected function setup_repository_args( Context $context = null ) {
-		$context = null !== $context ? $context : $this->context;
-
-		/**
-		 * Filters the events_per_page for the summary view.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param int $events_per_page Events per page.
-		 * @param Context $context Request context.
-		 */
-		$summary_view_events_per_page = apply_filters( 'tec_events_summary_view_events_per_page', $this->events_per_page, $context );
-
-		$context = $context->alter( [
-			'events_per_page' => $summary_view_events_per_page,
-		] );
-
-		$args = parent::setup_repository_args( $context );
-
-		return $args;
-	}
-
-	/**
 	 * Overrides the base View method to fix the order of the events in the `past` display mode.
 	 *
 	 * @since 1.0.0
@@ -70,42 +38,38 @@ class Summary_View extends List_View {
 	 */
 	protected function setup_template_vars() {
 		$template_vars     = parent::setup_template_vars();
-		$is_past           = 'past' === $this->context->get( 'event_display_mode' );
-		$request_date      = $template_vars['request_date'];
 		$events_by_date    = [];
 		$month_transition  = [];
 		$injectable_events = [];
-		$current_month     = null;
 		$earliest_event    = current( $template_vars['events'] );
 		$ids               = wp_list_pluck( $template_vars['events'], 'ID' );
 		$previous_event    = $this->get_previous_event( $earliest_event, $ids );
 
-		foreach ( $template_vars['events'] as $event ) {
-			$start_date = empty( $is_past ) && ! empty( $request_date )
-				? max( $event->dates->start_display, $request_date )
-				: $event->dates->start_display;
+		foreach ( $template_vars['events'] as $event  ) {
+			$event_start            = $event->dates->start_display;
+			$start_date_day_of_year = tribe_beginning_of_day( $event_start->format( Dates::DBDATEFORMAT ), 'z' );
+			$end_date_day_of_year   = tribe_beginning_of_day( $event->dates->end_display->format( Dates::DBDATEFORMAT ), 'z' );
+			$date_diff              = $end_date_day_of_year - $start_date_day_of_year;
 
-			$end_date = $event->dates->end_display;
+			for( $x = 0; $x <= $date_diff; $x++ ) {
+				$new_event = clone $event;
+				$event_day = $new_event->dates->start_display;
 
-			$group_date      = tribe_beginning_of_day( $start_date->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
-			$formatted_month = substr( $group_date, 0, 7 );
+				if ( 0 < $x ) {
+					$event_day = $event_day->add( Dates::interval( "P{$x}D" ) );
+				}
 
-			$event = $this->add_view_specific_properties_to_event( $event, $group_date );
+				$event_date  = $event_day->format( Dates::DBDATEFORMAT );
+				$event_month = $event_day->format( Dates::DBYEARMONTHTIMEFORMAT );
 
-			// When we transition to a new month, store the date of transition.
-			if ( empty( $current_month ) || $formatted_month !== $current_month ) {
-				$current_month                   = $formatted_month;
-				$month_transition[ $group_date ] = $group_date;
+				if ( ! isset( $month_transition[$event_month] ) ) {
+					$month_transition[$event_month] = $event->ID;
+				}
+
+				$events_by_date[$event_date][ $event_date  . ' - ' . $new_event->ID ] = $this->add_view_specific_properties_to_event( $new_event, $event_date );
 			}
-
-			if ( empty( $events_by_date[ $group_date ] ) ) {
-				$events_by_date[ $group_date ] = [];
-			}
-
-			$events_by_date[ $group_date ][ $event->dates->start->format( Dates::DBDATETIMEFORMAT ) . ' - ' . $event->ID ] = $event;
-
-			$injectable_events = $this->maybe_extend_event_to_other_dates( $event, $start_date, $end_date, $injectable_events );
 		}
+
 
 		if ( ! empty( $previous_event ) ) {
 			$injectable_events = $this->maybe_include_overlapping_events( $events_by_date, $previous_event, $injectable_events );
@@ -122,20 +86,56 @@ class Summary_View extends List_View {
 		return $template_vars;
 	}
 
-	protected function add_view_specific_properties_to_event( $event ) {
+	protected function add_view_specific_properties_to_event( $event, $group_date ) {
 		$start_date = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 		$end_date   = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
 
-		$formatted_start_date_beginning = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), tribe_get_option( 'dateWithoutYearFormat' ) );
-		$formatted_end_date_ending      = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), tribe_get_option( 'dateWithoutYearFormat' ) );
+		$format                         = tribe_get_date_option( 'dateWithoutYearFormat', Dates::DBDATEFORMAT );
+		$formatted_start_date_beginning = tribe_beginning_of_day( $event->dates->start->format( Dates::DBDATEFORMAT ), $format );
+		$formatted_end_date_ending      = tribe_beginning_of_day( $event->dates->end->format( Dates::DBDATEFORMAT ), $format );
+		$formatted_group_date           = tribe_beginning_of_day( $group_date, $format );
+
+		$is_multiday_start = false !== $event->multiday && $formatted_group_date === $formatted_start_date_beginning;
+		$is_multiday_end   = false !== $event->multiday && $formatted_group_date === $formatted_end_date_ending;
+		$is_all_day        = $event->all_day;
+
+		$counts = class_exists( 'Tribe__Tickets__Tickets' ) ? \Tribe__Tickets__Tickets::get_ticket_counts( $event->ID ) : [];
+
+		$has_tickets = ! empty( $counts['tickets'] ) && ! empty( array_filter( $counts['tickets'] ) );
+		$has_rsvp    = ! empty( $counts['rsvp'] ) && ! empty( array_filter( $counts['rsvp'] ) );
+
+		// Make "middle" days of a multi-day event all-day events.
+		if (
+			false !== $event->multiday
+			&& ! $is_multiday_start
+			&& ! $is_multiday_end
+		) {
+			$is_all_day = true;
+		}
+
+		$date_format = get_option( 'time_format' );
+		$end_time    = $event->dates->end_display->format( $date_format );
+		$start_time  = $event->dates->start_display->format( get_option( 'time_format' ) );
+		if ( tribe_get_option( 'tribe_events_timezones_show_zone', false )) {
+			if ( ! $is_multiday_start ) {
+				$end_time .= ' ' . $event->dates->end_display->format( 'T' );
+			} else {
+				$start_time .= ' ' . $event->dates->end_display->format( 'T' );
+			}
+		}
 
 		$event->summary_view = (object) [
-			'start_time'           => $event->dates->start->format( 'g:i a'),
-			'end_time'             => $event->dates->end->format( 'g:i a'),
+			'start_time'           => $start_time,
+			'end_time'             => $end_time,
 			'start_date'           => $start_date,
 			'end_date'             => $end_date,
 			'formatted_start_date' => $formatted_start_date_beginning,
 			'formatted_end_date'   => $formatted_end_date_ending,
+			'is_multiday_start'    => $is_multiday_start,
+			'is_multiday_end'      => $is_multiday_end,
+			'is_all_day'           => $is_all_day,
+			'has_tickets'          => $has_tickets,
+			'has_rsvp'             => $has_rsvp,
 		];
 
 		return $event;
@@ -221,25 +221,24 @@ class Summary_View extends List_View {
 		$start_date_beginning = Dates::build_date_object( tribe_beginning_of_day( $start_date->format( Dates::DBDATETIMEFORMAT ) ) );
 		$end_date_beginning   = Dates::build_date_object( tribe_beginning_of_day( $end_date->format( Dates::DBDATETIMEFORMAT ) ) );
 
+
 		// Calculate the difference in days between the start and end of the event.
 		$diff = $start_date_beginning->diff( $end_date_beginning )->format( '%a' );
 
 		for ( $i = 1; $i <= $diff; $i++ ) {
+			// We need to clone the event here so we don't change all versions of it each iteration!
+			$new_event = clone $event;
+
 			// Don't modify the $start_date in the loop!
 			$start = Dates::build_date_object( $start_date );
 			$date = tribe_beginning_of_day( $start->add( new \DateInterval( 'P' . $i . 'D' ) )->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
+			$new_event  = $this->add_view_specific_properties_to_event( $new_event, $date );
 
 			if ( empty( $dates[ $date ] ) ) {
 				$dates[ $date ] = [];
 			}
 
-			if ( ! isset( $this->date_group_order_tracking[ $date ] ) ) {
-				$this->date_group_order_tracking[ $date ] = 1;
-			} else {
-				$this->date_group_order_tracking[ $date ]++;
-			}
-
-			$dates[ $date ][ $event->dates->start->format( Dates::DBDATEFORMAT ) . ' 00:00:00 - ' . str_pad( $this->date_group_order_tracking[ $date ], 3, '0', STR_PAD_LEFT ) ] = $event;
+			$dates[ $date ][ $date . ' - ' . $new_event->ID ] = $new_event;
 		}
 
 		return $dates;
