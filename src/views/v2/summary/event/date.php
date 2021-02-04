@@ -20,6 +20,10 @@
  */
 use Tribe__Date_Utils as Dates;
 
+
+$fnord = $event->summary_view;
+$foo = '';
+
 //$event->schedule_details;
 $formatted_start_date = $event->dates->start->format( Dates::DBDATEFORMAT );
 ?>
@@ -42,5 +46,3 @@ $formatted_start_date = $event->dates->start->format( Dates::DBDATEFORMAT );
 	<?php $this->template( 'summary/event/date/meta', [ 'event' => $event ] ); ?>
 	<?php $this->template( 'summary/event/date/recurring' ); ?>
 </div>
-<?php $fnord = $event->summary_view; ?>
-<?php $foo = ''; ?>

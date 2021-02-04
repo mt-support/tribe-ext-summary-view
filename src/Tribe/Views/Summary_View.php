@@ -8,12 +8,15 @@
 
 namespace Tribe\Extensions\Summary_View\Views;
 
+use DateInterval;
 use Tribe__Context as Context;
 use Tribe__Date_Utils as Dates;
 use Tribe\Events\Views\V2\Views\List_View;
 use Tribe\Utils\Date_I18n;
 use Tribe\Utils\Date_I18n_Immutable;
 use Tribe__Events__Timezones as Timezones;
+
+use function Patchwork\Utils\args;
 
 class Summary_View extends List_View {
 
@@ -25,42 +28,6 @@ class Summary_View extends List_View {
 	 * @var string
 	 */
 	protected $slug = 'summary';
-
-	/**
-	 * Events per page
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var int
-	 */
-	protected $events_per_page = 25;
-
-	protected $date_group_order_tracking = [];
-
-	/**
-	 * {@inheritDoc}
-	 */
-	protected function setup_repository_args( Context $context = null ) {
-		$context = null !== $context ? $context : $this->context;
-
-		/**
-		 * Filters the events_per_page for the summary view.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param int $events_per_page Events per page.
-		 * @param Context $context Request context.
-		 */
-		$summary_view_events_per_page = apply_filters( 'tec_events_summary_view_events_per_page', $this->events_per_page, $context );
-
-		$context = $context->alter( [
-			'events_per_page' => $summary_view_events_per_page,
-		] );
-
-		$args = parent::setup_repository_args( $context );
-
-		return $args;
-	}
 
 	/**
 	 * Overrides the base View method to fix the order of the events in the `past` display mode.
@@ -81,6 +48,7 @@ class Summary_View extends List_View {
 		$ids               = wp_list_pluck( $template_vars['events'], 'ID' );
 		$previous_event    = $this->get_previous_event( $earliest_event, $ids );
 
+		/*
 		foreach ( $template_vars['events'] as $event ) {
 			$start_date = empty( $is_past ) && ! empty( $request_date )
 				? max( $event->dates->start_display, $request_date )
@@ -107,6 +75,33 @@ class Summary_View extends List_View {
 
 			$injectable_events = $this->maybe_extend_event_to_other_dates( $event, $start_date, $end_date, $injectable_events );
 		}
+ 		*/
+
+		foreach ( $template_vars['events'] as $event  ) {
+			$event_start            = $event->dates->start_display;
+			$start_date_day_of_year = tribe_beginning_of_day( $event_start->format( Dates::DBDATEFORMAT ), 'z' );
+			$end_date_day_of_year   = tribe_beginning_of_day( $event->dates->end_display->format( Dates::DBDATEFORMAT ), 'z' );
+			$date_diff              = $end_date_day_of_year - $start_date_day_of_year;
+
+			for( $x = 0; $x <= $date_diff; $x++ ) {
+				$new_event = clone $event;
+				$event_day = $new_event->dates->start_display;
+
+				if ( 0 < $x ) {
+					$event_day = $event_day->add( Dates::interval( "P{$x}D" ) );
+				}
+
+				$event_date  = $event_day->format( Dates::DBDATEFORMAT );
+				$event_month = $event_day->format( Dates::DBYEARMONTHTIMEFORMAT );
+
+				if ( ! isset( $month_transition[$event_month] ) ) {
+					$month_transition[$event_month] = $event->ID;
+				}
+
+				$events_by_date[$event_date][ $event_date  . ' - ' . $new_event->ID ] = $this->add_view_specific_properties_to_event( $new_event, $event_date );
+			}
+		}
+
 
 		if ( ! empty( $previous_event ) ) {
 			$injectable_events = $this->maybe_include_overlapping_events( $events_by_date, $previous_event, $injectable_events );
