@@ -18,7 +18,6 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-$fnord = $event->summary;
 if ( ! in_array( $event->ID, $month_transition ) ) {
 	return;
 }

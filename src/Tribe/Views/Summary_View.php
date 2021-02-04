@@ -38,44 +38,12 @@ class Summary_View extends List_View {
 	 */
 	protected function setup_template_vars() {
 		$template_vars     = parent::setup_template_vars();
-		$is_past           = 'past' === $this->context->get( 'event_display_mode' );
-		$request_date      = $template_vars['request_date'];
 		$events_by_date    = [];
 		$month_transition  = [];
 		$injectable_events = [];
-		$current_month     = null;
 		$earliest_event    = current( $template_vars['events'] );
 		$ids               = wp_list_pluck( $template_vars['events'], 'ID' );
 		$previous_event    = $this->get_previous_event( $earliest_event, $ids );
-
-		/*
-		foreach ( $template_vars['events'] as $event ) {
-			$start_date = empty( $is_past ) && ! empty( $request_date )
-				? max( $event->dates->start_display, $request_date )
-				: $event->dates->start_display;
-
-			$end_date = $event->dates->end_display;
-
-			$group_date      = tribe_beginning_of_day( $start_date->format( Dates::DBDATEFORMAT ), Dates::DBDATEFORMAT );
-			$formatted_month = substr( $group_date, 0, 7 );
-
-			$event = $this->add_view_specific_properties_to_event( $event, $group_date );
-
-			// When we transition to a new month, store the date of transition.
-			if ( empty( $current_month ) || $formatted_month !== $current_month ) {
-				$current_month                   = $formatted_month;
-				$month_transition[ $group_date ] = $group_date;
-			}
-
-			if ( empty( $events_by_date[ $group_date ] ) ) {
-				$events_by_date[ $group_date ] = [];
-			}
-
-			$events_by_date[ $group_date ][ $event->dates->start->format( Dates::DBDATETIMEFORMAT ) . ' - ' . $event->ID ] = $event;
-
-			$injectable_events = $this->maybe_extend_event_to_other_dates( $event, $start_date, $end_date, $injectable_events );
-		}
- 		*/
 
 		foreach ( $template_vars['events'] as $event  ) {
 			$event_start            = $event->dates->start_display;

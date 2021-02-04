@@ -20,10 +20,6 @@
  */
 use Tribe__Date_Utils as Dates;
 
-
-$fnord = $event->summary_view;
-$foo = '';
-
 //$event->schedule_details;
 $formatted_start_date = $event->dates->start->format( Dates::DBDATEFORMAT );
 ?>
