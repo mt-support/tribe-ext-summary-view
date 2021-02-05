@@ -43,7 +43,11 @@ class Summary_View extends List_View {
 		$injectable_events = [];
 		$earliest_event    = current( $template_vars['events'] );
 		$ids               = wp_list_pluck( $template_vars['events'], 'ID' );
-		$previous_event    = $this->get_previous_event( $earliest_event, $ids );
+
+
+		$previous_event = ( $earliest_event instanceof \WP_Post )
+			? $this->get_previous_event( $earliest_event, $ids )
+			: false;
 
 		foreach ( $template_vars['events'] as $event  ) {
 			$event_start            = $event->dates->start_display;
@@ -51,7 +55,7 @@ class Summary_View extends List_View {
 			$end_date_day_of_year   = tribe_beginning_of_day( $event->dates->end_display->format( Dates::DBDATEFORMAT ), 'z' );
 			$date_diff              = $end_date_day_of_year - $start_date_day_of_year;
 
-			for( $x = 0; $x <= $date_diff; $x++ ) {
+			for ( $x = 0; $x <= $date_diff; $x++ ) {
 				$new_event = clone $event;
 				$event_day = $new_event->dates->start_display;
 
@@ -62,11 +66,11 @@ class Summary_View extends List_View {
 				$event_date  = $event_day->format( Dates::DBDATEFORMAT );
 				$event_month = $event_day->format( Dates::DBYEARMONTHTIMEFORMAT );
 
-				if ( ! isset( $month_transition[$event_month] ) ) {
-					$month_transition[$event_month] = $event->ID;
+				if ( ! isset( $month_transition[ $event_month ] ) ) {
+					$month_transition[ $event_month ] = $event->ID;
 				}
 
-				$events_by_date[$event_date][ $event_date  . ' - ' . $new_event->ID ] = $this->add_view_specific_properties_to_event( $new_event, $event_date );
+				$events_by_date[ $event_date ][ $event_date  . ' - ' . $new_event->ID ] = $this->add_view_specific_properties_to_event( $new_event, $event_date );
 			}
 		}
 
@@ -116,7 +120,7 @@ class Summary_View extends List_View {
 		$date_format = get_option( 'time_format' );
 		$end_time    = $event->dates->end_display->format( $date_format );
 		$start_time  = $event->dates->start_display->format( get_option( 'time_format' ) );
-		if ( tribe_get_option( 'tribe_events_timezones_show_zone', false )) {
+		if ( tribe_get_option( 'tribe_events_timezones_show_zone', false ) ) {
 			if ( ! $is_multiday_start ) {
 				$end_time .= ' ' . $event->dates->end_display->format( 'T' );
 			} else {
