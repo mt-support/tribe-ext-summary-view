@@ -3,7 +3,7 @@
  * Plugin Name:       The Events Calendar Extension: Summary View
  * Plugin URI:
  * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-summary-view
- * Description:
+ * Description:       This extension adds a "Summary", or "Agenda" styled view to the calendar view options.
  * Version:           1.0.0
  * Author:            Modern Tribe, Inc.
  * Author URI:        http://m.tri.be/1971
