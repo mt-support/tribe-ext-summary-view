@@ -14,8 +14,8 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 == Description ==
 
 This is The Events Calendar Summary View Extension. It adds a terrific new variation of List View to your calendar.
-The Summary View, also known as an "agenda view" lists events by day in a compact format, with dates on the left and events on the right - allowing easy scanning of events.
-it also shows multiday events on each day they occur, with notes for starting and ending dates.
+The Summary View, also known as an "agenda view" lists events by day in a compact format, with days on the left and events on the right, allowing easy scanning of events.
+It also shows multiday events on each day they occur, with indications for starting and ending dates.
 
 Some important things to note:
 While the Summary view has no settings itself, it is affected by other view settings, such as:
@@ -29,7 +29,7 @@ Install and activate like any other plugin!
 * You can upload the plugin zip file via the *Plugins ‣ Add New* screen
 * You can unzip the plugin and then upload to your plugin directory (typically _wp-content/plugins_) via FTP
 * Once it has been installed or uploaded, simply visit the main plugin list and activate it
-* The new view will automatically activate itself upon plugin activation., and can be deactivated via the *Events ‣ Settings ‣ Display* screen.
+* The new view will automatically activate itself upon plugin activation, and can be deactivated via the *Events ‣ Settings ‣ Display* screen.
 
 == Frequently Asked Questions ==
 
