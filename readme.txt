@@ -18,8 +18,9 @@ The Summary View, also known as an "agenda view" lists events by day in a compac
 it also shows multiday events on each day they occur, with notes for starting and ending dates.
 
 Some important things to note:
-While the Summary view has no settings itself, it is affected by other view settings -
-such as the limit on events for list views and whether recurring events only show on the first occurrence or for every occurrence.
+While the Summary view has no settings itself, it is affected by other view settings, such as:
+ - the limit on events for list views, and
+ - whether recurring events only show on the first occurrence or for every occurrence.
 
 == Installation ==
 
