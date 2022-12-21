@@ -105,12 +105,12 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return array The views registered with photo view added.
 	 */
 	public function setup_summary_view_in_bar( $views ) {
-		$views[] = array(
+		$views[] = [
 			'displaying'     => 'summary',
 			'anchor'         => __( 'Summary', 'tribe-events-calendar-pro' ),
 			'event_bar_hook' => 'tribe_events_before_template',
 			'url'            => \tribe_get_summary_permalink(),
-		);
+		];
 
 		return $views;
 	}

@@ -26,7 +26,6 @@ if ( empty( $event->featured ) ) {
 ?>
 <em
 	class="tribe-events-calendar-list__event-datetime-featured-icon tribe-events-calendar-summary__event-title-icon"
-	aria-label="<?php esc_attr_e( 'Featured', 'the-events-calendar' ); ?>"
 	title="<?php esc_attr_e( 'Featured', 'the-events-calendar' ); ?>"
 >
 	<?php $this->template( 'components/icons/featured', [ 'classes' => [ 'tribe-events-calendar-list__event-title-featured-icon-svg' ] ] ); ?>
